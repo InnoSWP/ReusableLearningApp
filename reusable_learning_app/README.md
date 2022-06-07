@@ -1,4 +1,4 @@
-# reusable_learning_app
+# reusable_app
 
 A new Flutter project.
 

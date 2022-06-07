@@ -1,64 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:reusable_app/screens/home.dart';
+import 'authorization/authorization_manager.dart';
+import 'screens/authorization/authorization_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const LearningApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class LearningApp extends StatefulWidget {
+  const LearningApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
+  @override
+  State createState() => _LearningAppState();
+}
+
+class _LearningAppState extends State {
+  var manager = AuthorizationManager();
+
+
   @override
   Widget build(BuildContext context) {
+    bool authorized = false;
+    manager.isAuthorized().then((value) => authorized = value);
     return MaterialApp(
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      initialRoute: authorized ? "/" : "/authorize",
+      routes: {
+        "/": (context) => Home(),
+        "/authorize": (context) => AuthorizationScreen(),
+        "/create": (context) => AuthorizationScreen(),
+      },
     );
   }
 }

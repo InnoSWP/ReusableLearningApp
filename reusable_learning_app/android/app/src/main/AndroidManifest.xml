@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.reusable_learning_app">
+    package="com.example.reusable_app">
    <application
-        android:label="reusable_learning_app"
+        android:label="reusable_app"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

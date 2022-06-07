@@ -1,4 +1,4 @@
-package com.example.reusable_learning_app
+package com.example.reusable_app
 
 import io.flutter.embedding.android.FlutterActivity
 
