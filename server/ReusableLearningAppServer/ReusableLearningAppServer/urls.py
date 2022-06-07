@@ -17,7 +17,8 @@ Including another URLconf
 from django.urls import include, path
 from rest_framework import routers
 from lessons.views import LessonViewSet
-from courses.views import UserViewSet, CourseViewSet
+from courses.views import CourseViewSet
+from accounts.views import UserViewSet
 
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
