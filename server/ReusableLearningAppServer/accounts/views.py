@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404
 from accounts.serializers import UserSerializer
 from rest_framework.views import APIView, Response
 from rest_framework.viewsets import ModelViewSet
@@ -7,9 +8,18 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 
 class UserViewSet(ModelViewSet):
-    queryset = User.objects.all().order_by('-date_joined')
+    queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
+
+    def retrieve(self, request, *args, **kwargs):
+        user = get_object_or_404(self.queryset, *args, **kwargs)
+        serializer = UserSerializer(user)
+        return Response(
+            data={
+                **serializer.data
+            }
+        )
 
 
 class RegisterView(APIView):
@@ -37,9 +47,9 @@ class SelfUserView(APIView):
     def get(self, request):
         serializer = UserSerializer(request.user)
 
+        user_data = dict(serializer.data)
+        user_data.pop('password')
+
         return Response(
-            data={
-                **serializer.data,
-                'isAuthorized': True
-            }
+            data=user_data
         )
