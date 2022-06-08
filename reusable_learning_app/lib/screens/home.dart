@@ -1,9 +1,6 @@
-import 'dart:async';
-import 'dart:convert';
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
+import '../models/custom_colors.dart';
 import 'Content/AchievementsBody.dart';
 import 'Content/HomeBody.dart';
 import 'Content/SearchBody.dart';
@@ -36,7 +33,10 @@ class BottomMenu extends StatelessWidget {
     return BottomNavigationBar(
       currentIndex: page,
       onTap: onChanged,
-
+      type: BottomNavigationBarType.fixed,
+      backgroundColor: CustomColors.purple,
+      selectedItemColor: Colors.white,
+      unselectedItemColor: Colors.grey,
       items: const [
         BottomNavigationBarItem(icon: Icon(Icons.home_filled, color: Colors.white,), label: 'Home'),
         BottomNavigationBarItem(icon: Icon(Icons.search, color: Colors.white), label: 'Search'),
@@ -67,11 +67,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Center(
-            child: Text("", textAlign: TextAlign.center)),
-        backgroundColor: Colors.black,
-      ),
       body: _bodyPage(_page),
       bottomNavigationBar: BottomMenu(
         page: _page,

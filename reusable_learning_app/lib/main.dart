@@ -23,6 +23,7 @@ class _LearningAppState extends State {
     bool authorized = false;
     manager.isAuthorized().then((value) => authorized = value);
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       initialRoute: authorized ? "/" : "/authorize",
       routes: {
         "/": (context) => Home(),

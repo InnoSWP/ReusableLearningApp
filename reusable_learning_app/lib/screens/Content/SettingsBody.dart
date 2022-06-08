@@ -17,10 +17,11 @@ class SettingsBodyState extends State<SettingsBody> {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: ThemeData.dark(),
-        home: const Scaffold(
-          body: Padding(
-              padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
+        home: Scaffold(
+          appBar: AppBar(
+            title: const Text("Settings", textAlign: TextAlign.center),
+          ),
+          body: const Center(
               child: Text("Settings page")),
         ));
   }

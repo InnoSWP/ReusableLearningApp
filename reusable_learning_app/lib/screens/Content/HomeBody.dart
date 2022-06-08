@@ -17,11 +17,20 @@ class HomeBodyState extends State<HomeBody> {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: ThemeData.dark(),
-        home: const Scaffold(
-          body: Padding(
-              padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
-              child: Text("Main page")),
+        home: Scaffold(
+          appBar: AppBar(
+            title: const Text("Course name", textAlign: TextAlign.center),
+            leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
+            actions: [
+              Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  child: IconButton(onPressed: () {}, icon: const Icon(Icons.notifications))),
+              Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  child: IconButton(onPressed: () {}, icon: const Icon(Icons.search))),
+            ],
+          ),
+          body: const Center(child: Text("Main page")),
         ));
   }
 }
