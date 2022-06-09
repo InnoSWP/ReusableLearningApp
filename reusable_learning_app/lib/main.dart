@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reusable_app/models/utilities/custom_colors.dart';
 import 'package:reusable_app/screens/home.dart';
 import 'authorization/authorization_manager.dart';
 import 'screens/authorization/authorization_screen.dart';
@@ -20,15 +21,25 @@ class _LearningAppState extends State {
 
   @override
   Widget build(BuildContext context) {
-    bool authorized = false;
-    manager.isAuthorized().then((value) => authorized = value);
-    return MaterialApp(
-      initialRoute: authorized ? "/" : "/authorize",
-      routes: {
-        "/": (context) => Home(),
-        "/authorize": (context) => AuthorizationScreen(),
-        "/create": (context) => AuthorizationScreen(),
+
+    return FutureBuilder<bool>(
+      future: manager.isAuthorized(),
+      builder: (context, AsyncSnapshot<bool> snapshot) {
+        bool? authorized = snapshot.data;
+        return MaterialApp(
+          theme: ThemeData(
+            primaryColor: CustomColors.purple
+          ),
+          initialRoute: authorized! ? "/" : "/authorize",
+          routes: {
+            "/": (context) => Home(),
+            "/authorize": (context) => AuthorizationScreen(),
+            "/create": (context) => AuthorizationScreen(),
+          },
+        );
       },
     );
+    
+
   }
 }

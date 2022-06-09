@@ -1,6 +1,8 @@
 import 'course.dart';
 
 abstract class User {
-  String? userName;
+  int? id;
+  String? username;
+  String? email;
   List<Course>? courseList;
 }
