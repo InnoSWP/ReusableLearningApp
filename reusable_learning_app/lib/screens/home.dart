@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/custom_colors.dart';
+import '../models/utilities/custom_colors.dart';
 import 'Content/AchievementsBody.dart';
 import 'Content/HomeBody.dart';
 import 'Content/SearchBody.dart';
