@@ -1,0 +1,3 @@
+class NavBarItem {
+  String? title;
+}

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:reusable_app/screens/Forms/auth_form.dart';
-import '/models/custom_colors.dart';
+import '../../models/utilities/custom_colors.dart';
 
 class AuthorizationScreen extends StatefulWidget {
   const AuthorizationScreen({Key? key}) : super(key: key);

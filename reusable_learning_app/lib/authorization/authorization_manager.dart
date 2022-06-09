@@ -8,10 +8,8 @@ class AuthorizationManager {
 
   void authorize(String username, String password) async {
     // check for authorization
-    if (await isAuthorized()) return;
-
     var response = await dio.post(
-      "future api link)))",
+      "http://10.91.51.187:8000/users/login/",
       data: { "username": username, "password": password }
     );
 
@@ -21,8 +19,11 @@ class AuthorizationManager {
     await storage.write(key: 'jwtAccess', value: response.data["access"]);
   }
   Future<bool> isAuthorized() async {
-    //TODO
-    return false;
+    String? token = await storage.read(key: "jwtRefresh");
+    if (token == null) {
+      return false;
+    }
+    return true;
   }
   void logout() {
     storage.write(key: 'jwtRefresh', value: null);
