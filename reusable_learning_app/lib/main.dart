@@ -18,7 +18,7 @@ class LearningApp extends StatefulWidget {
 class _LearningAppState extends State {
   var manager = AuthorizationManager();
 
-
+  
   @override
   Widget build(BuildContext context) {
 
@@ -43,3 +43,4 @@ class _LearningAppState extends State {
 
   }
 }
+
