@@ -6,6 +6,10 @@ class AuthForm extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   AuthForm({Key? key}) : super(key: key);
 
+  String _username = '';
+  String _password = '';
+
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -31,13 +35,17 @@ class AuthForm extends StatelessWidget {
                 errorStyle: const TextStyle(
                   fontSize: 15,
                   color: Color(0xFFFF5F5F)
-                )
+                ),
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter username';
                 }
                 return null;
+              },
+
+              onSaved: (value) {
+                _username = value!;
               },
             )
         ),
@@ -69,6 +77,9 @@ class AuthForm extends StatelessWidget {
                   }
                   return null;
                 },
+                onSaved: (value) {
+                  _password = value!;
+                },
               )
           ),
           ElevatedButton(
@@ -81,9 +92,26 @@ class AuthForm extends StatelessWidget {
                 )
               )
             ),
-            onPressed: () {
+            onPressed: () async {
               if(_formKey.currentState!.validate()) {
-                // TODO check if user exists
+                _formKey.currentState!.save();
+                var result = await AuthorizationManager().authorize(_username, _password);
+                if(result.isAuthorized) {
+                  Navigator.pushNamed(context, "/");
+                }
+                else {
+                  showDialog(context: context, builder: (BuildContext context) =>
+                    AlertDialog(
+                      title: const Text("Wrong username or password"),
+                      content: const Text("No active account found with the given credentials"),
+                      actions: [
+                        TextButton(
+                            onPressed: () => Navigator.pop(context, "OK"),
+                            child: const Text("OK")
+                        )
+                      ],
+                    ));
+                }
               }
             },
             child: const Text("Sign In"),
@@ -94,7 +122,10 @@ class AuthForm extends StatelessWidget {
               overlayColor: MaterialStateProperty.all(Colors.grey[300])
             ),
             onPressed: () {
-              // TODO check if user exists
+              if(_formKey.currentState!.validate()) {
+                _formKey.currentState!.save();
+
+              }
             },
             child: const Text(
               "Create Account",

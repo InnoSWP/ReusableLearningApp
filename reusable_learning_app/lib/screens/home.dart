@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:reusable_app/models/interfaces/nav_item.dart';
 
 import '../models/utilities/custom_colors.dart';
-import 'Content/AchievementsBody.dart';
-import 'Content/HomeBody.dart';
-import 'Content/SearchBody.dart';
-import 'Content/SettingsBody.dart';
+import 'Content/achievements_body.dart';
+import 'Content/home_body.dart';
+import 'Content/search_body.dart';
+import 'Content/settings_body.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: HomePage(),
-    );
-  }
+  State<StatefulWidget> createState() => _HomePageState();
 }
 
 class BottomMenu extends StatelessWidget {
@@ -40,25 +36,21 @@ class BottomMenu extends StatelessWidget {
       items: const [
         BottomNavigationBarItem(icon: Icon(Icons.home_filled, color: Colors.white,), label: 'Home'),
         BottomNavigationBarItem(icon: Icon(Icons.search, color: Colors.white), label: 'Search'),
-        BottomNavigationBarItem(icon: Icon(Icons.bar_chart_rounded, color: Colors.white), label : "Achievements"),
+        BottomNavigationBarItem(icon: Icon(Icons.leaderboard, color: Colors.white), label : "Achievements"),
         BottomNavigationBarItem(icon: Icon(Icons.settings, color: Colors.white), label : "Settings"),
       ],
     );
   }
 }
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
 
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State {
   final Storage _storage = Storage();
   var _page = 0;
 
-  @override
+  final List<Widget> _navItems = [HomeBody(), SearchBody(),
+    AchievementsBody(), SettingsBody()];
+
   void initState() {
     super.initState();
     _page = _storage.loadPage();
@@ -67,30 +59,27 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _bodyPage(_page),
+      body: _navItems.elementAt(_page),
+      appBar: AppBar(
+        backgroundColor: CustomColors.purple,
+        title: Text((_navItems.elementAt(_page) as NavItem).title, textAlign: TextAlign.center),
+        leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
+        actions: [
+          Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+              child: IconButton(onPressed: () {}, icon: const Icon(Icons.notifications))),
+          Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+              child: IconButton(onPressed: () {}, icon: const Icon(Icons.search))),
+        ],
+      ),
       bottomNavigationBar: BottomMenu(
         page: _page,
-        onChanged: onChanged,
+        onChanged: (index) { setState(() => _page = index); }
       ),
     );
   }
 
-  void onChanged(int index) => setState(() => _page = index);
-
-
-  Widget _bodyPage(int page) {
-    switch (page) {
-      case 0:
-        return const HomeBody();
-      case 1:
-        return const SearchBody();
-      case 2:
-        return const AchievementsBody();
-      case 3:
-        return const SettingsBody();
-    }
-    throw Exception('Unknown page');
-  }
 }
 
 

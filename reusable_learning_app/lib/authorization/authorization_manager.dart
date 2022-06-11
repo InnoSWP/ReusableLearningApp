@@ -1,32 +1,57 @@
-import 'package:dio/dio.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'dart:convert';
 
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:reusable_app/models/utilities/server_settings.dart';
+import 'package:reusable_app/models/utilities/token_api.dart';
+
+class Result {
+  bool isAuthorized = false;
+  String? errorMessage;
+}
 
 class AuthorizationManager {
-  final storage = const FlutterSecureStorage();
-  final dio = Dio();
+  final _dio = Dio();
 
-  void authorize(String username, String password) async {
+  Future<Result> authorize(String username, String password) async {
     // check for authorization
-    var response = await dio.post(
-      "http://10.91.51.187:8000/users/login/",
-      data: { "username": username, "password": password }
-    );
+    
+    var data = {
+      "username": username,
+      "password": password
+    };
+    print(jsonEncode(data));
+    Response? response;
+    try {
+      response = await _dio.post(
+        "${ServerSettings.baseUrl}/users/login/",
+        data: data,
+        queryParameters: {
+          "Content-Type": "application/json"
+        }
+      );
+    }
+    on DioError catch (e) {
+      print(e.message);
+    }
+    if(response == null) return Result()..errorMessage = "Some error happened";
 
-    if (response.statusCode != 200) return;
+    await TokenApi.setRefreshToken(response.data["refresh"]);
+    await TokenApi.setAccessToken(response.data["access"]);
 
-    await storage.write(key: 'jwtRefresh', value: response.data["refresh"]);
-    await storage.write(key: 'jwtAccess', value: response.data["access"]);
+    return Result()..isAuthorized = true;
   }
   Future<bool> isAuthorized() async {
-    String? token = await storage.read(key: "jwtRefresh");
-    if (token == null) {
+    String? refreshToken = await TokenApi.getRefreshToken();
+    String? accessToken = await TokenApi.getAccessToken();
+
+    if (refreshToken == null || accessToken == null) {
       return false;
     }
     return true;
   }
   void logout() {
-    storage.write(key: 'jwtRefresh', value: null);
-    storage.write(key: 'jwtAccess', value: null);
+    TokenApi.setAccessToken(null);
+    TokenApi.setRefreshToken(null);
   }
 }
