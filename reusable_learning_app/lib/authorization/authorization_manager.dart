@@ -1,26 +1,30 @@
 import 'dart:convert';
-
+import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:reusable_app/models/utilities/server_settings.dart';
 import 'package:reusable_app/models/utilities/token_api.dart';
 
-class Result {
+class AuthResult {
   bool isAuthorized = false;
+  String? errorMessage;
+}
+class AccountCreateResult {
+  bool isCreated = false;
   String? errorMessage;
 }
 
 class AuthorizationManager {
   final _dio = Dio();
 
-  Future<Result> authorize(String username, String password) async {
+  Future<AuthResult> authorize(String username, String password) async {
     // check for authorization
     
     var data = {
       "username": username,
       "password": password
     };
-    print(jsonEncode(data));
+    debugPrint(jsonEncode(data));
     Response? response;
     try {
       response = await _dio.post(
@@ -34,12 +38,12 @@ class AuthorizationManager {
     on DioError catch (e) {
       print(e.message);
     }
-    if(response == null) return Result()..errorMessage = "Some error happened";
+    if(response == null) return AuthResult()..errorMessage = "Some error happened";
 
     await TokenApi.setRefreshToken(response.data["refresh"]);
     await TokenApi.setAccessToken(response.data["access"]);
 
-    return Result()..isAuthorized = true;
+    return AuthResult()..isAuthorized = true;
   }
   Future<bool> isAuthorized() async {
     String? refreshToken = await TokenApi.getRefreshToken();
@@ -49,6 +53,34 @@ class AuthorizationManager {
       return false;
     }
     return true;
+  }
+  Future<AccountCreateResult> registerAccount(String email, String username, String password) async {
+    var data = {
+      "email": email,
+      "username": username,
+      "password": password
+    };
+    Response? response;
+    try {
+      response = await _dio.post(
+        "${ServerSettings.baseUrl}/users/register/",
+        queryParameters: {
+          "Content-Type": "application/json"
+        },
+        data: data
+      );
+    }
+    on DioError catch (e) {
+      print(e.message);
+    }
+    if (response == null) {
+      return AccountCreateResult()..errorMessage = "Some error happened";
+    }
+
+    await TokenApi.setRefreshToken(response.data["refresh"]);
+    await TokenApi.setAccessToken(response.data["access"]);
+
+    return AccountCreateResult()..isCreated = true;
   }
   void logout() {
     TokenApi.setAccessToken(null);
