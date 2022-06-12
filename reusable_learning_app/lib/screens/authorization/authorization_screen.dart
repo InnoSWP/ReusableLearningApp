@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:reusable_app/screens/Forms/auth_form.dart';
+import 'package:reusable_app/screens/forms/account_creation_form.dart';
 import '../../models/utilities/custom_colors.dart';
 
 class AuthorizationScreen extends StatefulWidget {
@@ -18,25 +19,25 @@ class _AuthorizationScreenState extends State {
         color: CustomColors.purple,
         child: Center(
           child: SizedBox(
-            height: 500,
+            height: 550,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children:  [
-                const Expanded(
-                  child: Text(
+              children: [
+                Container(
+                  alignment: Alignment.center,
+                  child: const Text(
                     "ReusApp",
                     style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 45
+                        color: Colors.white,
+                        fontSize: 45
                     ),
                   ),
                 ),
-                const SizedBox(height: 100),
-                Expanded(
-                  flex: 4,
-                  child: AuthForm(),
+
+                Container(
+                  child: ModalRoute.of(context)!.settings.name == '/authorize' ? AuthForm() : AccountCreationForm(),
                 ),
               ],
             ),

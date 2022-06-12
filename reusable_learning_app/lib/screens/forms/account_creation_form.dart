@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import '/authorization/authorization_manager.dart';
 
-class AuthForm extends StatelessWidget {
+class AccountCreationForm extends StatelessWidget {
   final manager = AuthorizationManager();
   final _formKey = GlobalKey<FormState>();
-  AuthForm({Key? key}) : super(key: key);
+  AccountCreationForm({Key? key}) : super(key: key);
 
   String _username = '';
+  String _email = '';
   String _password = '';
 
 
@@ -17,13 +18,47 @@ class AuthForm extends StatelessWidget {
       child: Column(
         children: [
           Padding(
+              padding: const EdgeInsets.all(10),
+              child: TextFormField(
+                style: const TextStyle(
+                    color: Colors.black
+                ),
+                decoration: InputDecoration(
+                  hintText: "Username",
+                  hintStyle: const TextStyle(
+                      color: Colors.black
+                  ),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6)
+                  ),
+                  fillColor: Colors.white,
+                  filled: true,
+                  errorStyle: const TextStyle(
+                      fontSize: 15,
+                      color: Color(0xFFFF5F5F)
+                  ),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter username';
+                  }
+                  return null;
+                },
+
+                onSaved: (value) {
+                  _username = value!;
+                },
+              )
+          ),
+          Padding(
             padding: const EdgeInsets.all(10),
             child: TextFormField(
+              keyboardType: TextInputType.emailAddress,
               style: const TextStyle(
                 color: Colors.black
               ),
               decoration: InputDecoration(
-                hintText: "Username",
+                hintText: "Email",
                 hintStyle: const TextStyle(
                   color: Colors.black
                 ),
@@ -36,19 +71,19 @@ class AuthForm extends StatelessWidget {
                   fontSize: 15,
                   color: Color(0xFFFF5F5F)
                 ),
+
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Please enter username';
+                  return 'Please enter email';
                 }
                 return null;
               },
-
               onSaved: (value) {
-                _username = value!;
+                _email = value!;
               },
             )
-        ),
+          ),
           Padding(
             padding: const EdgeInsets.all(10),
             child: TextFormField(
@@ -70,6 +105,7 @@ class AuthForm extends StatelessWidget {
                   fontSize: 15,
                   color: Color(0xFFFF5F5F)
                 ),
+
 
               ),
               validator: (value) {
@@ -96,44 +132,52 @@ class AuthForm extends StatelessWidget {
             onPressed: () async {
               if(_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
-                var result = await AuthorizationManager().authorize(_username, _password);
-                if(result.isAuthorized) {
+                var result = await AuthorizationManager()
+                  .registerAccount(_email, _username, _password);
+                if (result.isCreated) {
                   Navigator.pushNamed(context, "/");
                 }
                 else {
-                  showDialog(context: context, builder: (BuildContext context) =>
-                    AlertDialog(
-                      title: const Text("Wrong username or password"),
-                      content: const Text("No active account found with the given credentials"),
-                      actions: [
-                        TextButton(
-                            onPressed: () => Navigator.pop(context, "OK"),
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text("User exists"),
+                        content: const Text(
+                          "A user with these credentials already exists"
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
                             child: const Text("OK")
-                        )
-                      ],
-                    ));
+                          )
+                        ],
+                      );
+                    }
+                  );
                 }
               }
             },
-            child: const Text("Sign In"),
+            child: const Text("Create Account")
           ),
           ElevatedButton(
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(Colors.white),
               overlayColor: MaterialStateProperty.all(Colors.grey[300])
             ),
-            onPressed: () {
-              Navigator.pushNamed(context, "/create");
+            onPressed: () async {
+              Navigator.pop(context);
             },
             child: const Text(
-              "Create Account",
+              "Sign In",
               style: TextStyle(
                 color: Colors.purple,
                 fontSize: 15,
                 letterSpacing: 1
               )
             ),
-          )
+          ),
+
         ],
       ),
     );
