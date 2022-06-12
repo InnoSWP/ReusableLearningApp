@@ -3,7 +3,7 @@ import 'package:reusable_app/models/interfaces/nav_item.dart';
 
 import '../models/utilities/custom_colors.dart';
 import 'Content/achievements_body.dart';
-import 'Content/home_body.dart';
+import 'Content/courses_body.dart';
 import 'Content/search_body.dart';
 import 'Content/settings_body.dart';
 
@@ -48,7 +48,7 @@ class _HomePageState extends State {
   final Storage _storage = Storage();
   var _page = 0;
 
-  final List<Widget> _navItems = [HomeBody(), SearchBody(),
+  final List<Widget> _navItems = [CoursesBody(), SearchBody(),
     AchievementsBody(), SettingsBody()];
 
   void initState() {
