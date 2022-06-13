@@ -21,6 +21,7 @@ class _LearningAppState extends State {
   var manager = AuthorizationManager();
   @override
   Widget build(BuildContext context) {
+    manager.logout();
     return FutureBuilder<bool>(
       future: manager.isAuthorized(),
       builder: (context, AsyncSnapshot<bool> snapshot) {
