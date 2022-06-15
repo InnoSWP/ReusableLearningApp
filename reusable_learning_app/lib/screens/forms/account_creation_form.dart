@@ -142,10 +142,8 @@ class AccountCreationForm extends StatelessWidget {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: const Text("User exists"),
-                        content: const Text(
-                          "A user with these credentials already exists"
-                        ),
+                        title: Text("Error"),
+                        content: Text(result.errorMessage!),
                         actions: [
                           TextButton(
                             onPressed: () => Navigator.pop(context),
