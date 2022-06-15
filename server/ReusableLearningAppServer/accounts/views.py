@@ -47,9 +47,6 @@ class SelfUserView(APIView):
     def get(self, request):
         serializer = UserSerializer(request.user)
 
-        user_data = dict(serializer.data)
-        user_data.pop('password')
-
         return Response(
-            data=user_data
+            data=serializer.data
         )
