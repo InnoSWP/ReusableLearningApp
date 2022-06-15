@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:reusable_app/models/interfaces/nav_item.dart';
 
+import '../components/drawer_component.dart';
 import '../models/utilities/custom_colors.dart';
 import 'Content/achievements_body.dart';
 import 'Content/courses_body.dart';
@@ -63,7 +64,6 @@ class _HomePageState extends State {
       appBar: AppBar(
         backgroundColor: CustomColors.purple,
         title: Text((_navItems.elementAt(_page) as NavItem).title, textAlign: TextAlign.center),
-        leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
         actions: [
           Padding(
               padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
@@ -77,6 +77,7 @@ class _HomePageState extends State {
         page: _page,
         onChanged: (index) { setState(() => _page = index); }
       ),
+      drawer: DrawerComponent()
     );
   }
 

@@ -103,8 +103,8 @@ class AuthForm extends StatelessWidget {
                 else {
                   showDialog(context: context, builder: (BuildContext context) =>
                     AlertDialog(
-                      title: const Text("Wrong username or password"),
-                      content: const Text("No active account found with the given credentials"),
+                      title: Text("Error"),
+                      content: Text(result.errorMessage!),
                       actions: [
                         TextButton(
                             onPressed: () => Navigator.pop(context, "OK"),

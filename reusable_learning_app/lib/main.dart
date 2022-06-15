@@ -35,6 +35,7 @@ class _LearningAppState extends State {
             "/": (context) => Home(),
             "/authorize": (context) => AuthorizationScreen(),
             "/create": (context) => AuthorizationScreen(),
+            // TODO new routes: /favCourses, /favLessons, /devChat, /edit
           },
         );
       },

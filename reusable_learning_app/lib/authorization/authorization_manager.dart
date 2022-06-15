@@ -19,12 +19,10 @@ class AuthorizationManager {
 
   Future<AuthResult> authorize(String username, String password) async {
     // check for authorization
-    
     var data = {
       "username": username,
       "password": password
     };
-    debugPrint(jsonEncode(data));
     Response? response;
     try {
       response = await _dio.post(
@@ -36,16 +34,20 @@ class AuthorizationManager {
       );
     }
     on DioError catch (e) {
-      print(e.message);
+      if(e.response == null) return AuthResult()..errorMessage = "Connection to server lost.";
+      if (e.response!.statusCode == 401) {
+        return AuthResult()..errorMessage = "No active account found with the given credentials";
+      }
     }
-    if(response == null) return AuthResult()..errorMessage = "Some error happened";
 
-    await TokenApi.setRefreshToken(response.data["refresh"]);
+    await TokenApi.setRefreshToken(response!.data["refresh"]);
     await TokenApi.setAccessToken(response.data["access"]);
 
     return AuthResult()..isAuthorized = true;
   }
   Future<bool> isAuthorized() async {
+    TokenApi.refreshTokens();
+
     String? refreshToken = await TokenApi.getRefreshToken();
     String? accessToken = await TokenApi.getAccessToken();
 
@@ -71,7 +73,10 @@ class AuthorizationManager {
       );
     }
     on DioError catch (e) {
-      print(e.message);
+      if(e.response == null) return AccountCreateResult()..errorMessage = "Connection to server lost.";
+      if (e.response!.statusCode == 400) {
+        return AccountCreateResult()..errorMessage = "A user with that username already exists.";
+      }
     }
     if (response == null) {
       return AccountCreateResult()..errorMessage = "Some error happened";
