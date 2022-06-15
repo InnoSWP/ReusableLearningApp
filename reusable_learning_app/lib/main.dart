@@ -21,24 +21,37 @@ class _LearningAppState extends State {
   var manager = AuthorizationManager();
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<bool>(
-      future: manager.isAuthorized(),
-      builder: (context, AsyncSnapshot<bool> snapshot) {
-        bool authorized = snapshot.data!;
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            primaryColor: CustomColors.purple
-          ),
-          initialRoute: authorized ? "/" : "/authorize",
-          routes: {
-            "/": (context) => Home(),
-            "/authorize": (context) => AuthorizationScreen(),
-            "/create": (context) => AuthorizationScreen(),
-            // TODO new routes: /favCourses, /favLessons, /devChat, /edit
-          },
-        );
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+          primaryColor: CustomColors.purple
+      ),
+      routes: {
+        "/home": (context) => Home(),
+        "/authorize": (context) => AuthorizationScreen(),
+        "/create": (context) => AuthorizationScreen(),
+        // TODO new routes: /favCourses, /favLessons, /devChat, /edit
       },
+      home: FutureBuilder<bool>(
+        future: manager.isAuthorized(),
+        builder: (context, AsyncSnapshot<bool> snapshot) {
+          if(snapshot.hasData) {
+            if(snapshot.data!) {
+              return Home();
+            }
+            else {
+              return AuthorizationScreen();
+            }
+          }
+          else {
+            return const Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+        },
+      ),
     );
   }
 }

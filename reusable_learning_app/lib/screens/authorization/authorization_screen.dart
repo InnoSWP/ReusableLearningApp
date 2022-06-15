@@ -37,7 +37,7 @@ class _AuthorizationScreenState extends State {
                 ),
 
                 Container(
-                  child: ModalRoute.of(context)!.settings.name == '/authorize' ? AuthForm() : AccountCreationForm(),
+                  child: ModalRoute.of(context)!.settings.name == '/' ? AuthForm() : AccountCreationForm(),
                 ),
               ],
             ),
