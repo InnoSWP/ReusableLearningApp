@@ -98,7 +98,7 @@ class AuthForm extends StatelessWidget {
                 _formKey.currentState!.save();
                 var result = await AuthorizationManager().authorize(_username, _password);
                 if(result.isAuthorized) {
-                  Navigator.pushNamed(context, "/");
+                  Navigator.pushNamed(context, "/home");
                 }
                 else {
                   showDialog(context: context, builder: (BuildContext context) =>

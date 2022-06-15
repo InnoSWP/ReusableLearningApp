@@ -132,10 +132,10 @@ class AccountCreationForm extends StatelessWidget {
             onPressed: () async {
               if(_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
-                var result = await AuthorizationManager()
+                var result = await manager
                   .registerAccount(_email, _username, _password);
                 if (result.isCreated) {
-                  Navigator.pushNamed(context, "/");
+                  Navigator.pushNamed(context, "/home");
                 }
                 else {
                   showDialog(

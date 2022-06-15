@@ -68,9 +68,6 @@ class _HomePageState extends State {
           Padding(
               padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
               child: IconButton(onPressed: () {}, icon: const Icon(Icons.notifications))),
-          Padding(
-              padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-              child: IconButton(onPressed: () {}, icon: const Icon(Icons.search))),
         ],
       ),
       bottomNavigationBar: BottomMenu(
