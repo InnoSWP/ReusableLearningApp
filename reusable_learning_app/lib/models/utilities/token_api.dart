@@ -19,9 +19,11 @@ class TokenApi {
     await _storage.write(key: "jwtAccess", value: newToken);
   }
   static refreshTokens() async {
+    var token = await TokenApi.getRefreshToken();
+    if (token == null) return;
     var response = await _dio.post(
         "${ServerSettings.baseUrl}/users/refresh/",
-        data: { "refresh": await TokenApi.getRefreshToken() }
+        data: { "refresh": token }
     );
     if(response.statusCode != 200) return;
 
