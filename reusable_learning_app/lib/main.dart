@@ -21,7 +21,6 @@ class _LearningAppState extends State {
   var manager = AuthorizationManager();
   @override
   Widget build(BuildContext context) {
-    manager.logout();
     return FutureBuilder<bool>(
       future: manager.isAuthorized(),
       builder: (context, AsyncSnapshot<bool> snapshot) {
@@ -36,6 +35,7 @@ class _LearningAppState extends State {
             "/": (context) => Home(),
             "/authorize": (context) => AuthorizationScreen(),
             "/create": (context) => AuthorizationScreen(),
+            // TODO new routes: /favCourses, /favLessons, /devChat, /edit
           },
         );
       },
