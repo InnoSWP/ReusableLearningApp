@@ -36,13 +36,12 @@ class _LearningAppState extends State {
         future: manager.isAuthorized(),
         builder: (context, AsyncSnapshot<bool> snapshot) {
           if(snapshot.hasData) {
-            // if(snapshot.data!) {
-            //   return Home();
-            // }
-            // else {
-            //   return AuthorizationScreen();
-            // }
-            return Home();
+            if(snapshot.data!) {
+              return Home();
+            }
+            else {
+              return AuthorizationScreen();
+            }
           }
           else {
             return const Scaffold(
