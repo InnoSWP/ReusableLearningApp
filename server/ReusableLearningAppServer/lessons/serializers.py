@@ -3,7 +3,9 @@ from rest_framework import serializers
 from lessons.models import Lesson
 
 
-class LessonSerializer(serializers.HyperlinkedModelSerializer):
+class LessonSerializer(serializers.ModelSerializer):
+    course = serializers.PrimaryKeyRelatedField(read_only=True)
+
     class Meta:
         model = Lesson
-        fields = ['name', 'content', 'children_lessons', 'course']
+        fields = ['name', 'content', 'level', 'course']
