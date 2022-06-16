@@ -31,7 +31,7 @@ class _LearningAppState extends State {
           theme: ThemeData(
             primaryColor: CustomColors.purple
           ),
-          initialRoute: !authorized ? "/" : "/authorize",
+          initialRoute: authorized ? "/" : "/authorize",
           routes: {
             "/": (context) => Home(),
             "/authorize": (context) => AuthorizationScreen(),
