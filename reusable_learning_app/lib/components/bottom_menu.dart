@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import '../models/utilities/custom_colors.dart';
 import '../screens/Content/achievements_body.dart';
 import '../screens/Content/courses_body.dart';
-import '../screens/Content/search_body.dart';
+import '../screens/Content/shop_body.dart';
 import '../screens/Content/settings_body.dart';
 import '../screens/home.dart';
 
 class BottomMenu extends StatefulWidget {
 
-  static final List<Widget> navItems = [CoursesBody(), SearchBody(),
+  static final List<Widget> navItems = [CoursesBody(), ShopBody(),
     AchievementsBody(), SettingsBody()];
   static int curIndex = 0;
 
@@ -47,7 +47,7 @@ class _BottomMenuState extends State<BottomMenu> {
       unselectedItemColor: Colors.grey,
       items: const [
         BottomNavigationBarItem(icon: Icon(Icons.home_filled, color: Colors.white,), label: 'Home'),
-        BottomNavigationBarItem(icon: Icon(Icons.search, color: Colors.white), label: 'Search'),
+        BottomNavigationBarItem(icon: Icon(Icons.shopping_cart, color: Colors.white), label: 'Shop'),
         BottomNavigationBarItem(icon: Icon(Icons.leaderboard, color: Colors.white), label : "Achievements"),
         BottomNavigationBarItem(icon: Icon(Icons.settings, color: Colors.white), label : "Settings"),
       ],

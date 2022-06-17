@@ -7,7 +7,7 @@ import '../components/drawer_component.dart';
 import '../models/utilities/custom_colors.dart';
 import 'Content/achievements_body.dart';
 import 'Content/courses_body.dart';
-import 'Content/search_body.dart';
+import 'Content/shop_body.dart';
 import 'Content/settings_body.dart';
 
 class Home extends StatefulWidget {
