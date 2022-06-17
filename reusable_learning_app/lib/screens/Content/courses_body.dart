@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:reusable_app/components/bottom_menu.dart';
+import 'package:reusable_app/components/custom_app_bar.dart';
 import 'package:reusable_app/models/interfaces/nav_item.dart';
 
 class CoursesBody extends StatefulWidget implements NavItem {
@@ -19,8 +21,8 @@ class CoursesBodyState extends State<CoursesBody>  {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text("Home page"),
+    return Center(
+        child: Text("Home")
     );
   }
 

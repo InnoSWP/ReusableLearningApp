@@ -4,12 +4,26 @@ import '../screens/Content/achievements_body.dart';
 import '../screens/Content/courses_body.dart';
 import '../screens/Content/search_body.dart';
 import '../screens/Content/settings_body.dart';
+import '../screens/home.dart';
 
 class BottomMenu extends StatefulWidget {
 
   static final List<Widget> navItems = [CoursesBody(), SearchBody(),
     AchievementsBody(), SettingsBody()];
   static int curIndex = 0;
+
+  static void defaultNavigate(BuildContext context, int index){
+    BottomMenu.curIndex = index;
+  }
+  static void navigateFromOtherPage(BuildContext context, int index){
+    Navigator.push(
+        context,
+        PageRouteBuilder(pageBuilder: (context, _, __) {
+          return Home(startIndex: index);
+        })
+    );
+    BottomMenu.curIndex = index;
+  }
 
   final ValueChanged<int> onTap;
   BottomMenu({Key? key, required this.onTap}) : super(key: key);

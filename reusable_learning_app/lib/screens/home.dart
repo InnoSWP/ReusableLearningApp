@@ -11,19 +11,19 @@ import 'Content/search_body.dart';
 import 'Content/settings_body.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  int startIndex;
+
+  Home({Key? key, this.startIndex = 0}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _HomePageState();
 }
 
-class _HomePageState extends State {
-  final Storage _storage = Storage();
-  var _page = 0;
+class _HomePageState extends State<Home> {
 
   void initState() {
     super.initState();
-    _page = _storage.loadPage();
+    BottomMenu.curIndex = widget.startIndex;
   }
 
   @override
@@ -35,7 +35,7 @@ class _HomePageState extends State {
         backButton: false,
       ),
       bottomNavigationBar: BottomMenu(
-        onTap: (value) => setState(() { BottomMenu.curIndex = value; }),
+        onTap: (value) => setState(() { BottomMenu.defaultNavigate(context, value); }),
       ),
       drawer: const DrawerComponent()
     );
@@ -43,7 +43,3 @@ class _HomePageState extends State {
 
 }
 
-
-class Storage {
-  int loadPage() => 0;
-}
