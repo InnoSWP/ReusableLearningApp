@@ -6,15 +6,16 @@ from courses.models import Course
 
 
 class CourseViewSet(viewsets.ModelViewSet):
-    queryset = Course.objects.all()
     serializer_class = CourseSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def list(self, request, *args, **kwargs):
-        serializer = CourseSerializer(self.queryset, many=True)
+        queryset = Course.objects.all()
+        serializer = CourseSerializer(queryset, many=True)
         return Response(serializer.data)
 
     def retrieve(self, request, *args, **kwargs):
-        course = get_object_or_404(self.queryset, *args, **kwargs)
+        queryset = Course.objects.all()
+        course = get_object_or_404(queryset, *args, **kwargs)
         serializer = CourseSerializer(course)
         return Response(serializer.data)
