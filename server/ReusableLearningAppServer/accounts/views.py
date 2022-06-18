@@ -16,9 +16,7 @@ class UserViewSet(ModelViewSet):
         user = get_object_or_404(self.queryset, *args, **kwargs)
         serializer = UserSerializer(user)
         return Response(
-            data={
-                **serializer.data
-            }
+            data=serializer.data
         )
 
 
