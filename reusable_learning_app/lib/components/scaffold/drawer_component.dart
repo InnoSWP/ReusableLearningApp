@@ -5,7 +5,7 @@ import 'package:reusable_app/authorization/server_api.dart';
 import 'package:reusable_app/authorization/authorization_manager.dart';
 import 'package:reusable_app/models/utilities/custom_colors.dart';
 
-import '../models/user.dart';
+import '../../models/user.dart';
 import 'drawer_item_component.dart';
 
 class DrawerComponent extends StatefulWidget {

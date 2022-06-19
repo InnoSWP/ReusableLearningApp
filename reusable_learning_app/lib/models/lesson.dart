@@ -9,7 +9,7 @@ class Lesson {
 
   Lesson.fromMap(dynamic json) {
     name = json["name"];
-    name = json["content"];
+    content = json["content"];
     level = json["level"];
   }
 }

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../models/utilities/custom_colors.dart';
-import '../screens/Content/achievements_body.dart';
-import '../screens/Content/courses_body.dart';
-import '../screens/Content/shop_body.dart';
-import '../screens/Content/settings_body.dart';
-import '../screens/home.dart';
+import '../../models/utilities/custom_colors.dart';
+import '../../screens/Content/achievements_body.dart';
+import '../../screens/Content/courses_body.dart';
+import '../../screens/Content/shop_body.dart';
+import '../../screens/Content/settings_body.dart';
+import '../../screens/home.dart';
 
 class BottomMenu extends StatefulWidget {
 
