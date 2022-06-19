@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +26,7 @@ SECRET_KEY = 'django-insecure-2@io**hp_bcn(%yxlp=rzx)*3vpci8to)@#(vroy6x)7bi^_9-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['10.91.51.187', '127.0.0.1', "10.0.2.2"]
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -42,6 +43,7 @@ INSTALLED_APPS = [
     'lessons',
     'courses',
     'accounts',
+    'favorites',
 ]
 
 MIDDLEWARE = [
@@ -141,3 +143,5 @@ REST_FRAMEWORK = {
 SIMPLE_JWT = {
     'ROTATE_REFRESH_TOKENS': True
 }
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')

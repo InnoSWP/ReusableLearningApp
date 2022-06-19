@@ -8,4 +8,4 @@ class Course(models.Model):
     users = models.ManyToManyField(User, related_name='course_list', blank=True)
 
     def __str__(self):
-        return f'{self.name}'
+        return f'Course {self.name}'

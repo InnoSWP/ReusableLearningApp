@@ -16,9 +16,7 @@ class UserViewSet(ModelViewSet):
         user = get_object_or_404(self.queryset, *args, **kwargs)
         serializer = UserSerializer(user)
         return Response(
-            data={
-                **serializer.data
-            }
+            data=serializer.data
         )
 
 
@@ -47,9 +45,6 @@ class SelfUserView(APIView):
     def get(self, request):
         serializer = UserSerializer(request.user)
 
-        user_data = dict(serializer.data)
-        user_data.pop('password')
-
         return Response(
-            data=user_data
+            data=serializer.data
         )

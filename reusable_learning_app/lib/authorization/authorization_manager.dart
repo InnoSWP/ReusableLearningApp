@@ -41,7 +41,7 @@ class AuthorizationManager {
   }
 
   Future<bool> isAuthorized() async {
-    TokenApi.refreshTokens();
+    await TokenApi.refreshTokens();
 
     String? refreshToken = await TokenApi.getRefreshToken();
     String? accessToken = await TokenApi.getAccessToken();
