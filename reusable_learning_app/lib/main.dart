@@ -17,15 +17,12 @@ class LearningApp extends StatefulWidget {
 }
 
 class _LearningAppState extends State {
-
   var manager = AuthorizationManager();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-          primaryColor: CustomColors.purple
-      ),
+      theme: ThemeData(primaryColor: CustomColors.purple),
       routes: {
         "/home": (context) => Home(),
         "/authorize": (context) => AuthorizationScreen(),
@@ -35,15 +32,13 @@ class _LearningAppState extends State {
       home: FutureBuilder<bool>(
         future: manager.isAuthorized(),
         builder: (context, AsyncSnapshot<bool> snapshot) {
-          if(snapshot.hasData) {
-            if(snapshot.data!) {
+          if (snapshot.hasData) {
+            if (snapshot.data!) {
               return Home();
-            }
-            else {
+            } else {
               return AuthorizationScreen();
             }
-          }
-          else {
+          } else {
             return const Scaffold(
               body: Center(
                 child: CircularProgressIndicator(),
@@ -55,4 +50,3 @@ class _LearningAppState extends State {
     );
   }
 }
-
