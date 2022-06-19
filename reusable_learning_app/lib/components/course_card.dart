@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reusable_app/models/utilities/custom_colors.dart';
 
 import '../models/course.dart';
 
@@ -31,7 +32,7 @@ class CourseCard extends StatelessWidget {
         ),
 
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 12),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -60,11 +61,24 @@ class CourseCard extends StatelessWidget {
                 ),
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   TextButton(
                     onPressed: () {  },
-                    child: Text("LEARN"),
+                    child: const Text(
+                      "LEARN",
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: CustomColors.purple
+                      ),
+                    ),
                   ),
+                  IconButton(
+                    icon: Icon(Icons.favorite_outline),
+                    onPressed: () {
+
+                    },
+                  )
                 ]
               )
             ],

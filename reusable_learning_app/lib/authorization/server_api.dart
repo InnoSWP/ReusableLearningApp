@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:reusable_app/models/utilities/server_settings.dart';
 import '../models/course.dart';
+import '../models/user.dart';
 import 'authorization_manager.dart';
 import 'package:dio/dio.dart';
 import '../models/utilities/token_api.dart';
@@ -13,7 +14,7 @@ class ServerApi {
   final _dio = Dio();
 
   Future<Response> post(String? relativeUrl, Map<dynamic, dynamic> data) async {
-    TokenApi.refreshTokens();
+    await TokenApi.refreshTokens();
     var access = await TokenApi.getAccessToken();
     var fullUrl = "$_baseUrl$relativeUrl";
     var response = await _dio.post(
@@ -25,7 +26,7 @@ class ServerApi {
   }
 
   Future<Response> get(String? relativeUrl) async {
-    TokenApi.refreshTokens();
+    await TokenApi.refreshTokens();
     var response;
     var access = await TokenApi.getAccessToken();
     var fullUrl = "$_baseUrl$relativeUrl";
@@ -43,10 +44,10 @@ class ServerApi {
     return response;
   }
 
-  Future<dynamic> getSelfInfo() async {
+  Future<User> getSelfInfo() async {
     var response = await get("/users/me/");
 
-    return response.data;
+    return User.fromMap(response.data);
   }
   Future<List<Course>> getCoursesList() async {
     var response = await get("/courses/list/");

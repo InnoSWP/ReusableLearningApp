@@ -5,6 +5,7 @@ import 'package:reusable_app/authorization/server_api.dart';
 import 'package:reusable_app/authorization/authorization_manager.dart';
 import 'package:reusable_app/models/utilities/custom_colors.dart';
 
+import '../models/user.dart';
 import 'drawer_item_component.dart';
 
 class DrawerComponent extends StatefulWidget {
@@ -17,7 +18,7 @@ class DrawerComponent extends StatefulWidget {
 
 class DrawerComponentState extends State {
   final ServerApi _api = ServerApi();
-  late Future<dynamic> selfInfo;
+  late Future<User> selfInfo;
   @override
   void initState() {
     super.initState();
@@ -62,12 +63,12 @@ class DrawerComponentState extends State {
                               alignment: Alignment.centerLeft,
                               child: Padding(
                                   padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-                                  child: FutureBuilder(
+                                  child: FutureBuilder<User>(
                                       future: selfInfo,
-                                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                                      builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
                                         if(snapshot.hasData) {
                                           return Text(
-                                            snapshot.data["username"],
+                                            snapshot.data!.username,
                                             style: const TextStyle(
                                                 fontSize: 20,
                                                 fontWeight: FontWeight.w500

@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:reusable_app/authorization/server_api.dart';
 import 'package:reusable_app/components/bottom_menu.dart';
@@ -21,6 +23,10 @@ class CoursesBodyState extends State<CoursesBody>  {
   late Future<List<Course>> _coursesInfo;
 
   @override
+  deactivate(){
+
+  }
+  @override
   void initState() {
     super.initState();
     _coursesInfo = ServerApi().getCoursesList();
@@ -34,14 +40,11 @@ class CoursesBodyState extends State<CoursesBody>  {
       future: _coursesInfo,
       builder: (context, AsyncSnapshot<List<Course>> snapshot) {
         if(snapshot.hasData) {
-          return ListView.separated(
-            physics: BouncingScrollPhysics(),
+          return ListView.builder(
+            physics: const BouncingScrollPhysics(),
             itemCount: snapshot.data!.length,
             itemBuilder: (context, index) {
               return CourseCard(course: snapshot.data![index]);
-            },
-            separatorBuilder: (BuildContext context, int index) {
-              return SizedBox(height: 20);
             },
           );
         }
