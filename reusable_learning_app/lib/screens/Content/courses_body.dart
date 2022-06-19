@@ -2,9 +2,9 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:reusable_app/authorization/server_api.dart';
-import 'package:reusable_app/components/bottom_menu.dart';
+import 'package:reusable_app/components/scaffold/bottom_menu.dart';
 import 'package:reusable_app/components/course_card.dart';
-import 'package:reusable_app/components/custom_app_bar.dart';
+import 'package:reusable_app/components/scaffold/custom_app_bar.dart';
 import 'package:reusable_app/models/interfaces/nav_item.dart';
 
 import '../../models/course.dart';

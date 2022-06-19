@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:reusable_app/models/utilities/token_api.dart';
 import 'package:reusable_app/models/utilities/custom_colors.dart';
 import 'package:reusable_app/screens/home.dart';
+import 'package:reusable_app/screens/lessons/course_screen.dart';
+import 'package:reusable_app/screens/lessons/lesson_screen.dart';
 import 'authorization/authorization_manager.dart';
 import 'screens/authorization/authorization_screen.dart';
 
@@ -25,8 +26,10 @@ class _LearningAppState extends State {
       theme: ThemeData(primaryColor: CustomColors.purple),
       routes: {
         "/home": (context) => Home(),
-        "/authorize": (context) => AuthorizationScreen(),
-        "/create": (context) => AuthorizationScreen(),
+        "/authorize": (context) => const AuthorizationScreen(),
+        "/create": (context) => const AuthorizationScreen(),
+        "/course": (context) => const CourseScreen(),
+        "/lesson": (context) => const LessonScreen(),
         // TODO new routes: /favCourses, /favLessons, /devChat, /edit
       },
       home: FutureBuilder<bool>(
@@ -36,7 +39,7 @@ class _LearningAppState extends State {
             if (snapshot.data!) {
               return Home();
             } else {
-              return AuthorizationScreen();
+              return const AuthorizationScreen();
             }
           } else {
             return const Scaffold(
