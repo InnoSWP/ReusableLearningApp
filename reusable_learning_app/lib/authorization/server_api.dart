@@ -1,7 +1,10 @@
+import 'dart:collection';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:reusable_app/models/utilities/server_settings.dart';
+import '../models/course.dart';
+import '../models/user.dart';
 import 'authorization_manager.dart';
 import 'package:dio/dio.dart';
 import '../models/utilities/token_api.dart';
@@ -10,27 +13,28 @@ class ServerApi {
   final _baseUrl = ServerSettings.baseUrl;
   final _dio = Dio();
 
-  Future<Response> post(String? relativeUrl, String? accessToken, Map<dynamic, dynamic> data) async {
-    TokenApi.refreshTokens();
-
+  Future<Response> post(String? relativeUrl, Map<dynamic, dynamic> data) async {
+    await TokenApi.refreshTokens();
+    var access = await TokenApi.getAccessToken();
     var fullUrl = "$_baseUrl$relativeUrl";
     var response = await _dio.post(
       fullUrl,
-      queryParameters: { "Authorization": "Bearer $accessToken" },
+      queryParameters: { "Authorization": "Bearer $access" },
       data: data
     );
     return response;
   }
 
-  Future<Response> get(String? relativeUrl, String? accessToken) async {
-    TokenApi.refreshTokens();
+  Future<Response> get(String? relativeUrl) async {
+    await TokenApi.refreshTokens();
     var response;
+    var access = await TokenApi.getAccessToken();
     var fullUrl = "$_baseUrl$relativeUrl";
     try {
       response = await _dio.get(
         fullUrl,
         options: Options(
-          headers: {"Authorization": "Bearer $accessToken"}
+          headers: {"Authorization": "Bearer $access"}
         )
       );
     }
@@ -40,13 +44,15 @@ class ServerApi {
     return response;
   }
 
-  Future<dynamic> getSelfInfo() async {
+  Future<User> getSelfInfo() async {
+    var response = await get("/users/me/");
 
-    var access = await TokenApi.getAccessToken();
-    var refresh = await TokenApi.getRefreshToken();
+    return User.fromMap(response.data);
+  }
+  Future<List<Course>> getCoursesList() async {
+    var response = await get("/courses/list/");
 
-    var response = await get("/users/me/", access);
-    return response.data;
+    return (response.data as List<dynamic>).map((e) => Course.fromMap(e)).toList();
   }
 
 }
