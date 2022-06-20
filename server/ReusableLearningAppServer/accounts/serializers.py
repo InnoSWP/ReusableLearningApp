@@ -10,7 +10,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username', 'email', 'course_list', 'favorite_courses', 'favorite_lessons']
-        read_only_fields = ['id']
+        read_only_fields = ['id', 'favorite_courses', 'favorite_lessons']
         write_only_fields = ['password']
 
     def create(self, validated_data):

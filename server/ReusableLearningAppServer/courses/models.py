@@ -9,3 +9,7 @@ class Course(models.Model):
 
     def __str__(self):
         return f'Course {self.name}'
+
+    @classmethod
+    def get_users_courses(cls, user: User):
+        return cls.objects.filter(users=user).all()
