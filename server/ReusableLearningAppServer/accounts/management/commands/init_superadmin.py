@@ -6,6 +6,9 @@ from django.core.management.base import BaseCommand
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
+        if User.objects.filter(username=os.getenv('SUPERADMIN_LOGIN')).first():
+            return
+
         user = User.objects.create_superuser(
             username=os.getenv('SUPERADMIN_LOGIN'),
             email=os.getenv('SUPERADMIN_EMAIL'),
