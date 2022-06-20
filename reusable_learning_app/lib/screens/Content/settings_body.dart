@@ -229,43 +229,49 @@ class SettingsBodyState extends State<SettingsBody> {
                   ),
                   color: Colors.white,
                   elevation: 5,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 17, top: 5, bottom: 5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text("Notifications",
-                            style:
-                                TextStyle(fontSize: 16, color: Colors.black)),
-                        IconButton(
-                            onPressed: _goToNotificationsPage,
-                            icon: const Icon(Icons.keyboard_arrow_right))
-                      ],
-                    ),
-                  ))) // Notifications
+                  child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                          onTap: _goToNotificationsPage,
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 17, top: 17, bottom: 17, right: 13),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: const [
+                                Text("Notifications",
+                                    style: TextStyle(
+                                        fontSize: 16, color: Colors.black)),
+                                Icon(Icons.keyboard_arrow_right)
+                              ],
+                            ),
+                          ))))) // Notifications
           ,
           Padding(
-              padding: const EdgeInsets.only(left: 7, right: 7, bottom: 11),
-              child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(2.0),
-                  ),
-                  color: Colors.white,
-                  elevation: 5,
-                  child: Padding(
-                      padding:
-                          const EdgeInsets.only(left: 17, top: 5, bottom: 5),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text("Get Support",
-                              style:
-                                  TextStyle(fontSize: 16, color: Colors.black)),
-                          IconButton(
-                              onPressed: _goToSupportPage,
-                              icon: const Icon(Icons.keyboard_arrow_right))
-                        ],
-                      )))) // Get support
+            padding: const EdgeInsets.only(left: 7, right: 7, bottom: 11),
+            child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(2.0),
+                ),
+                color: Colors.white,
+                elevation: 5,
+                child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                        onTap: _goToSupportPage,
+                        child: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 17, top: 17, bottom: 17, right: 13),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: const [
+                                Text("Get Support",
+                                    style: TextStyle(
+                                        fontSize: 16, color: Colors.black)),
+                                Icon(Icons.keyboard_arrow_right)
+                              ],
+                            ))))),
+          ) // Get support
           ,
         ],
       ),
