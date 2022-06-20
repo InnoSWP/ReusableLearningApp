@@ -52,10 +52,10 @@ class SettingsBodyState extends State<SettingsBody> {
                   const EdgeInsets.only(left: 7, right: 7, top: 11, bottom: 11),
               child: Card(
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
+                    borderRadius: BorderRadius.circular(5.0),
                   ),
                   color: Colors.white,
-                  elevation: 10,
+                  elevation: 2,
                   child: Padding(
                       padding:
                           const EdgeInsets.only(left: 17, top: 10, bottom: 10),
@@ -121,10 +121,10 @@ class SettingsBodyState extends State<SettingsBody> {
               padding: const EdgeInsets.only(left: 7, right: 7, bottom: 11),
               child: Card(
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
+                    borderRadius: BorderRadius.circular(2.0),
                   ),
                   color: Colors.white,
-                  elevation: 10,
+                  elevation: 5,
                   child: Padding(
                       padding: const EdgeInsets.only(
                           left: 17, top: 15, bottom: 15, right: 5),
@@ -198,10 +198,10 @@ class SettingsBodyState extends State<SettingsBody> {
               padding: const EdgeInsets.only(left: 7, right: 7, bottom: 11),
               child: Card(
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
+                    borderRadius: BorderRadius.circular(2.0),
                   ),
                   color: Colors.white,
-                  elevation: 10,
+                  elevation: 5,
                   child: Padding(
                     padding: const EdgeInsets.only(
                         left: 17, top: 5, bottom: 5, right: 5),
@@ -225,10 +225,10 @@ class SettingsBodyState extends State<SettingsBody> {
               padding: const EdgeInsets.only(left: 7, right: 7, bottom: 11),
               child: Card(
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
+                    borderRadius: BorderRadius.circular(2.0),
                   ),
                   color: Colors.white,
-                  elevation: 10,
+                  elevation: 5,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 17, top: 5, bottom: 5),
                     child: Row(
@@ -248,10 +248,10 @@ class SettingsBodyState extends State<SettingsBody> {
               padding: const EdgeInsets.only(left: 7, right: 7, bottom: 11),
               child: Card(
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
+                    borderRadius: BorderRadius.circular(2.0),
                   ),
                   color: Colors.white,
-                  elevation: 10,
+                  elevation: 5,
                   child: Padding(
                       padding:
                           const EdgeInsets.only(left: 17, top: 5, bottom: 5),
