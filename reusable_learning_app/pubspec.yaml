@@ -22,6 +22,7 @@ dev_dependencies:
     sdk: flutter
   mockito: ^5.2.0
   percent_indicator: ^4.0.1
+  flip_card: ^0.6.0
 
 flutter:
   uses-material-design: true
