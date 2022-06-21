@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../models/utilities/custom_colors.dart';
+import '../../screens/Content/notifications_screen.dart';
 
 class CustomAppBar extends AppBar {
   final String barTitle;
@@ -18,7 +19,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
       actions: [
         Padding(
             padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-            child: IconButton(onPressed: () {}, icon: const Icon(Icons.notifications))),
+            child: IconButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationsBody()));}, icon: const Icon(Icons.notifications))),
       ],
     );
   }
