@@ -13,6 +13,13 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         read_only_fields = ['id', 'favorite_courses', 'favorite_lessons']
         write_only_fields = ['password']
 
+
+class RegisterSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = User
+        fields = ['username', 'password', 'email']
+        write_only_fields = ['password']
+
     def create(self, validated_data):
         user = User.objects.create(
             username=validated_data['username'],
