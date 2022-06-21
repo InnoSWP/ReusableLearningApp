@@ -39,7 +39,9 @@ class _DrawerItemComponentState extends State<DrawerItemComponent> {
       icon = Icon(widget.iconData, color: CustomColors.grey);
     }
     return TextButton(
-      onPressed: () {  },
+      onPressed: () {
+        Navigator.pushNamed(context, widget.route);
+      },
       style: ButtonStyle(
         overlayColor: widget.selected ? MaterialStateProperty.all(Colors.transparent) : null,
         backgroundColor: widget.selected ? MaterialStateProperty.all(const Color(0xFFf7f0ff)) : null

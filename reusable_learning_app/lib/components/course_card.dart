@@ -8,8 +8,9 @@ import '../models/course.dart';
 
 class CourseCard extends StatelessWidget {
   final Course course;
+  final bool isFav;
 
-  const CourseCard({Key? key, required this.course}) : super(key: key);
+  const CourseCard({Key? key, required this.course, required this.isFav}) : super(key: key);
 
   void goToCourse(BuildContext context) {
     Navigator.of(context).pushNamed(
@@ -75,10 +76,19 @@ class CourseCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                IconButton(
-                  icon: Icon(Icons.favorite_outline),
-                  onPressed: () => {  },
-                )
+                Material(
+                  shape: const CircleBorder(),
+                  color: Colors.transparent,
+                  child: InkWell(
+                    child: IconButton(
+                      icon: isFav ?
+                        const Icon(Icons.favorite) : const Icon(Icons.favorite_outline),
+                      onPressed: () {
+                        print("dw");
+                      },
+                    ),
+                  ),
+                ),
               ]
             )
           ],

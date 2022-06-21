@@ -1,11 +1,7 @@
-import 'dart:collection';
-import 'dart:developer';
-
-import 'package:flutter/material.dart';
 import 'package:reusable_app/models/utilities/server_settings.dart';
+import 'package:reusable_app/models/utilities/user_info.dart';
 import '../models/course.dart';
 import '../models/user.dart';
-import 'authorization_manager.dart';
 import 'package:dio/dio.dart';
 import '../models/utilities/token_api.dart';
 
@@ -46,13 +42,26 @@ class ServerApi {
 
   Future<User> getSelfInfo() async {
     var response = await get("/users/me/");
-
-    return User.fromMap(response.data);
+    var user = User.fromMap(response.data);
+    UserInfo.me = user;
+    return user;
   }
   Future<List<Course>> getCoursesList() async {
     var response = await get("/courses/list/");
 
     return (response.data as List<dynamic>).map((e) => Course.fromMap(e)).toList();
   }
+  Future<List<int>> getFavouriteCoursesId() async {
+    try {
+      int id = UserInfo.me!.id;
+      var response = await get("/favorites/courses/courses/$id/");
+      UserInfo.favouriteCourses = (response.data as List<dynamic>).map((e) => e as int).toList();
+      return UserInfo.favouriteCourses!;
+    }
+    on DioError catch (e) {
+      print("haha");
+      return [53453453];
+    }
 
+  }
 }
