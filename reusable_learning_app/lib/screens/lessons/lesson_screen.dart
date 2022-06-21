@@ -31,7 +31,6 @@ class _LessonScreenState extends State<LessonScreen> {
           children: [
             CardTemplate(
               child: Container(
-                alignment: Alignment.center,
                 child: Column(
                   children: [
                     Padding(

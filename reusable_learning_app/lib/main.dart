@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:reusable_app/models/utilities/custom_colors.dart';
+import 'package:reusable_app/screens/drawer/fav_courses.dart';
 import 'package:reusable_app/screens/home.dart';
 import 'package:reusable_app/screens/lessons/course_screen.dart';
 import 'package:reusable_app/screens/lessons/lesson_screen.dart';
@@ -30,7 +31,8 @@ class _LearningAppState extends State {
         "/create": (context) => const AuthorizationScreen(),
         "/course": (context) => const CourseScreen(),
         "/lesson": (context) => const LessonScreen(),
-        // TODO new routes: /favCourses, /favLessons, /devChat, /edit
+        "/favCourses": (context) => const FavCourses(),
+        // TODO new routes: /favLessons, /devChat, /edit
       },
       home: FutureBuilder<bool>(
         future: manager.isAuthorized(),
