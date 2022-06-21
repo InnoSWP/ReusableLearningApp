@@ -7,11 +7,11 @@ class FavoriteCoursesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FavoriteCourses
-        fields = '__all__'
+        fields = ['user', 'course']
 
 
 class FavoriteLessonsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FavoriteLessons
-        fields = '__all__'
+        fields = ['user', 'lesson']
