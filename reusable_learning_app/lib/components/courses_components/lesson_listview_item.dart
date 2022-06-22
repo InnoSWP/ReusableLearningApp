@@ -25,16 +25,12 @@ class LessonListViewItem extends StatelessWidget {
             width: 200,
             child: Text(
               lesson.name,
-              style: const TextStyle(
-                fontSize: 17,
-                fontWeight: FontWeight.bold,
-                color: CustomColors.purple
-              ),
+              style: Theme.of(context).textTheme.titleSmall
             )
           ),
-          const Icon(
+          Icon(
             Icons.arrow_forward_ios, size: 21,
-            color: CustomColors.purple,
+            color: Theme.of(context).iconTheme.color,
           )
         ],
       )

@@ -2,15 +2,41 @@ import 'package:flutter/material.dart';
 import 'package:reusable_app/locale_string.dart';
 import 'package:reusable_app/models/utilities/token_api.dart';
 import 'package:reusable_app/models/utilities/custom_colors.dart';
+import 'package:reusable_app/providers/theme_provider.dart';
+import 'package:reusable_app/screens/drawer/fav_courses.dart';
 import 'package:reusable_app/screens/home.dart';
 import 'package:reusable_app/screens/lessons/course_screen.dart';
 import 'package:reusable_app/screens/lessons/lesson_screen.dart';
 import 'authorization/authorization_manager.dart';
+import 'models/utilities/themes.dart';
 import 'screens/authorization/authorization_screen.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:devicelocale/devicelocale.dart';
 
-void main() {
-  runApp(const LearningApp());
+late SharedPreferences prefs;
+Future<void> setDefault() async{
+  if(prefs.getString('dropdownValue') == null){
+    prefs.setBool('nightMode', false);
+    prefs.setBool('audioOn', false);
+    String? deviceLanguage = await Devicelocale.currentLocale;
+    String language = '';
+    if(localeToString.containsKey(Locale(deviceLanguage!))){
+      language = (localeToString[Locale(deviceLanguage)])!;
+    }
+    else{
+      language = 'English';
+    }
+
+    prefs.setString('dropdownValue', language);
+  }
+}
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  prefs = await SharedPreferences.getInstance();
+  setDefault().then((value) => runApp(const LearningApp()));
 }
 
 class LearningApp extends StatefulWidget {
@@ -25,37 +51,47 @@ class _LearningAppState extends State {
   var manager = AuthorizationManager();
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      translations: LocalString(),
-      locale: const Locale('en', 'US'),
-      theme: ThemeData(primaryColor: CustomColors.purple),
-      routes: {
-        "/home": (context) => Home(),
-        "/authorize": (context) => const AuthorizationScreen(),
-        "/create": (context) => const AuthorizationScreen(),
-        "/course": (context) => const CourseScreen(),
-        "/lesson": (context) => const LessonScreen(),
-        // TODO new routes: /favCourses, /favLessons, /devChat, /edit
+
+    return ChangeNotifierProvider(
+      create: (context) => ThemeProvider(),
+      builder: (context, _) {
+        var provider = Provider.of<ThemeProvider>(context);
+        return GetMaterialApp(
+          debugShowCheckedModeBanner: false,
+          translations: LocalString(),
+          locale: stringToLocale[prefs.getString('dropdownValue')],
+          themeMode: provider.themeMode(),
+          darkTheme: AppThemes.darkTheme,
+          theme: AppThemes.lightTheme,
+          routes: {
+            "/home": (context) => Home(),
+            "/authorize": (context) => const AuthorizationScreen(),
+            "/create": (context) => const AuthorizationScreen(),
+            "/course": (context) => const CourseScreen(),
+            "/lesson": (context) => const LessonScreen(),
+            "/favCourses": (context) => const FavCourses(),
+            // TODO new routes: /favCourses, /favLessons, /devChat, /edit
+          },
+          home: FutureBuilder<bool>(
+            future: manager.isAuthorized(),
+            builder: (context, AsyncSnapshot<bool> snapshot) {
+              if (snapshot.hasData) {
+                if (snapshot.data!) {
+                  return Home();
+                } else {
+                  return const AuthorizationScreen();
+                }
+              } else {
+                return const Scaffold(
+                  body: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              }
+            },
+          ),
+        );
       },
-      home: FutureBuilder<bool>(
-        future: manager.isAuthorized(),
-        builder: (context, AsyncSnapshot<bool> snapshot) {
-          if (snapshot.hasData) {
-            if (snapshot.data!) {
-              return Home();
-            } else {
-              return const AuthorizationScreen();
-            }
-          } else {
-            return const Scaffold(
-              body: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          }
-        },
-      ),
     );
   }
 }

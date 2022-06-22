@@ -16,7 +16,7 @@ class _AuthorizationScreenState extends State {
     return Scaffold(
       body: Container(
         padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-        color: CustomColors.purple,
+        color: Theme.of(context).canvasColor,
         child: Center(
           child: SizedBox(
             height: 550,
@@ -30,8 +30,7 @@ class _AuthorizationScreenState extends State {
                   child: const Text(
                     "ReusApp",
                     style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 45
+                      fontSize: 45
                     ),
                   ),
                 ),

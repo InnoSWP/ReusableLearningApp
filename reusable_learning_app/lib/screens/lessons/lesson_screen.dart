@@ -60,14 +60,34 @@ class _LessonScreenState extends State<LessonScreen> {
                     Center(
                       child: Container(
                         padding: const EdgeInsets.all(15),
-                        child: ElevatedButton(
+                        child: TextButton(
                           onPressed: () {
                             Navigator.pop(context);
                           },
                           style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(CustomColors.purple)
+                            backgroundColor: MaterialStateProperty.all(
+                              Colors.transparent
+                            ),
+                            shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                side: BorderSide(
+                                 width: 1,
+                                 color: Theme.of(context).iconTheme.color!
+                                ),
+                                borderRadius: BorderRadius.circular(10)
+                              )
+                            )
                           ),
-                          child: Text("Complete lesson".tr),
+                          child: Padding(
+                            padding: const EdgeInsets.all(3),
+                            child: Text(
+                              "Complete lesson".tr,
+                              style: TextStyle(
+                                color: Theme.of(context).iconTheme.color,
+                                fontSize: 18
+                              ),
+                            ),
+                          ),
                         ),
                       )
                     ),

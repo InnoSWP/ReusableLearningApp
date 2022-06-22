@@ -20,26 +20,12 @@ class _DrawerItemComponentState extends State<DrawerItemComponent> {
 
   @override
   Widget build(BuildContext context) {
-    late TextStyle style;
-    late Icon icon;
-    if(ModalRoute.of(context)!.settings.name == widget.route) {
-      widget.selected = true;
-      style = const TextStyle(
-          fontSize: 17,
-          color: CustomColors.purple
-      );
-      icon = Icon(widget.iconData, color: CustomColors.purple);
+    var style = Theme.of(context).textTheme.labelSmall;
+    var icon = Icon(widget.iconData, color: style?.color);
 
-    }
-    else {
-      style = const TextStyle(
-          fontSize: 17,
-          color: CustomColors.grey
-      );
-      icon = Icon(widget.iconData, color: CustomColors.grey);
-    }
     return TextButton(
       onPressed: () {
+        Navigator.pop(context);
         Navigator.pushNamed(context, widget.route);
       },
       style: ButtonStyle(
@@ -53,9 +39,12 @@ class _DrawerItemComponentState extends State<DrawerItemComponent> {
             icon,
             Padding(
               padding: const EdgeInsets.only(left: 32),
-              child: Text(
-                widget.itemName,
-                style: style
+              child: SizedBox(
+                width: 200,
+                child: Text(
+                  widget.itemName,
+                  style: style
+                ),
               ),
             )
           ],

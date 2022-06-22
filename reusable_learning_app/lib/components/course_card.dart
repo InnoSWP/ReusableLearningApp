@@ -39,22 +39,14 @@ class CourseCard extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 10),
                     child: Text(
                       course.name,
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold
-                      )
+                      style: Theme.of(context).textTheme.titleMedium
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 5),
                     child: Text(
                       course.description,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.grey.shade700,
-                        height: 1.3
-                      ),
+                      style: Theme.of(context).textTheme.bodySmall,
                       maxLines: 6,
 
                     ),
@@ -66,28 +58,22 @@ class CourseCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 TextButton(
+                  style: Theme.of(context).textButtonTheme.style,
                   onPressed: () {
                     goToCourse(context);
                   },
                   child: Text(
                     'LEARN'.tr,
-                    style: const TextStyle(
-                      fontSize: 15,
-                      color: CustomColors.purple
-                    ),
+                    style: Theme.of(context).textTheme.titleSmall,
                   ),
                 ),
-                Material(
-                  shape: const CircleBorder(),
-                  color: Colors.transparent,
-                  child: InkWell(
-                    child: IconButton(
-                      icon: isFav ?
-                        const Icon(Icons.favorite) : const Icon(Icons.favorite_outline),
-                      onPressed: () {
-                        print("dw");
-                      },
-                    ),
+                InkWell(
+                  child: IconButton(
+                    icon: isFav ?
+                      const Icon(Icons.favorite) : const Icon(Icons.favorite_outline),
+                    onPressed: () {
+                      print("dw");
+                    },
                   ),
                 ),
               ]

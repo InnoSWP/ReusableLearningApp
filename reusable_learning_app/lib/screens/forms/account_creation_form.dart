@@ -39,7 +39,10 @@ class AccountCreationForm extends StatelessWidget {
           Padding(
               padding: const EdgeInsets.all(10),
               child: TextFormField(
-                style: const TextStyle(color: Colors.black),
+                style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 18
+                ),
                 decoration: InputDecoration(
                   hintText: "Username".tr,
                   hintStyle: const TextStyle(color: Colors.black),
@@ -60,7 +63,10 @@ class AccountCreationForm extends StatelessWidget {
               padding: const EdgeInsets.all(10),
               child: TextFormField(
                 keyboardType: TextInputType.emailAddress,
-                style: const TextStyle(color: Colors.black),
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 18
+                ),
                 decoration: InputDecoration(
                   hintText: "Email".tr,
                   hintStyle: const TextStyle(color: Colors.black),
@@ -78,55 +84,65 @@ class AccountCreationForm extends StatelessWidget {
                 },
               )),
           Padding(
-              padding: const EdgeInsets.all(10),
-              child: TextFormField(
-                style: const TextStyle(color: Colors.black),
-                obscureText: true,
-                decoration: InputDecoration(
-                  hintText: "Password".tr,
-                  hintStyle: const TextStyle(color: Colors.black),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6)),
-                  fillColor: Colors.white,
-                  filled: true,
-                  errorStyle:
-                      const TextStyle(fontSize: 15, color: Color(0xFFFF5F5F)),
-                ),
-                validator: (value) =>
-                    CreatePasswordFieldValidator.validate(value!),
-                onSaved: (value) {
-                  _password = value!;
-                },
-              )),
-          ElevatedButton(
-              style: ButtonStyle(
-                  textStyle: MaterialStateProperty.all(const TextStyle(
-                      color: Colors.purple, fontSize: 15, letterSpacing: 1))),
-              onPressed: () async {
-                if (_formKey.currentState!.validate()) {
-                  _formKey.currentState!.save();
-                  var result = await manager.registerAccount(
-                      _email, _username, _password);
-                  if (result.isCreated) {
-                    Navigator.pushNamed(context, "/home");
-                  } else {
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text("Error".tr),
-                            content: Text(result.errorMessage!),
-                            actions: [
-                              TextButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: const Text("OK"))
-                            ],
-                          );
-                        });
-                  }
-                }
+            padding: const EdgeInsets.all(10),
+            child: TextFormField(
+              style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 18
+              ),
+              obscureText: true,
+              decoration: InputDecoration(
+                hintText: "Password".tr,
+                hintStyle: const TextStyle(color: Colors.black),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(6)),
+                fillColor: Colors.white,
+                filled: true,
+                errorStyle:
+                    const TextStyle(fontSize: 15, color: Color(0xFFFF5F5F)),
+              ),
+              validator: (value) =>
+                  CreatePasswordFieldValidator.validate(value!),
+              onSaved: (value) {
+                _password = value!;
               },
-              child: Text("Create Account".tr)),
+            )
+          ),
+          ElevatedButton(
+            style: ButtonStyle(
+                textStyle: MaterialStateProperty.all(const TextStyle(
+                    color: Colors.white, fontSize: 15, letterSpacing: 1))),
+            onPressed: () async {
+              if (_formKey.currentState!.validate()) {
+                _formKey.currentState!.save();
+                var result = await manager.registerAccount(
+                    _email, _username, _password);
+                if (result.isCreated) {
+                  Navigator.pushNamed(context, "/home");
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text("Error".tr),
+                        content: Text(result.errorMessage!),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: const Text("OK"))
+                        ],
+                      );
+                    }
+                  );
+                }
+              }
+            },
+            child: Text("Create Account".tr,
+              style: TextStyle(
+                color: Colors.white
+              ),
+            )
+          ),
           ElevatedButton(
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.white),

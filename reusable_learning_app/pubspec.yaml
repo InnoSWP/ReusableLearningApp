@@ -25,6 +25,8 @@ dev_dependencies:
   flip_card: ^0.6.0
   devicelocale: ^0.5.2
   get:
+  shared_preferences:
+  provider:
 
 flutter:
   uses-material-design: true
