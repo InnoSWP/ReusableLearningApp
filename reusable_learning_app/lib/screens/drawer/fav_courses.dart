@@ -5,6 +5,8 @@ import 'package:reusable_app/components/scaffold/custom_app_bar.dart';
 import '../../authorization/server_api.dart';
 import '../../components/course_card.dart';
 import '../../models/course.dart';
+import 'package:get/get.dart';
+
 
 class FavCourses extends StatefulWidget {
   const FavCourses({Key? key}) : super(key: key);
@@ -32,7 +34,7 @@ class _FavCoursesState extends State<FavCourses> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        barTitle: "Favourite Courses",
+        barTitle: "Favourite Courses".tr,
       ),
       body: FutureBuilder(
           future: Future.wait([

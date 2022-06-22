@@ -5,6 +5,8 @@ import 'package:reusable_app/components/scaffold/bottom_menu.dart';
 import 'package:reusable_app/components/scaffold/custom_app_bar.dart';
 import '../../models/lesson.dart';
 import '../../models/utilities/custom_colors.dart';
+import 'package:get/get.dart';
+
 
 class LessonScreen extends StatefulWidget {
   const LessonScreen({Key? key}) : super(key: key);
@@ -20,7 +22,7 @@ class _LessonScreenState extends State<LessonScreen> {
 
     return Scaffold(
       appBar: CustomAppBar(
-        barTitle: "Lesson: ${lesson.name}",
+        barTitle: "${'Lesson'.tr}: ${lesson.name}",
       ),
       bottomNavigationBar: BottomMenu(
         onTap: (value) => BottomMenu.navigateFromOtherPage(context, value),
@@ -65,7 +67,7 @@ class _LessonScreenState extends State<LessonScreen> {
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(CustomColors.purple)
                           ),
-                          child: const Text("Complete lesson"),
+                          child: Text("Complete lesson".tr),
                         ),
                       )
                     ),

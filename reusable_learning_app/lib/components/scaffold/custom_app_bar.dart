@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../models/utilities/custom_colors.dart';
 import '../../screens/Content/notifications_screen.dart';
+import 'package:get/get.dart';
+
 
 class CustomAppBar extends AppBar {
   final String barTitle;
@@ -15,7 +17,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: CustomColors.purple,
-      title: Text(widget.barTitle, textAlign: TextAlign.center),
+      title: Text(widget.barTitle.tr, textAlign: TextAlign.center),
       actions: [
         Padding(
             padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),

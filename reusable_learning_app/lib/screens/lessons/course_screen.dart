@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:reusable_app/components/courses_components/lesson_listview_item.dart';
 import 'package:reusable_app/components/scaffold/bottom_menu.dart';
 import 'package:reusable_app/components/card_template.dart';
+import 'package:get/get.dart';
+
 
 import '../../components/scaffold/custom_app_bar.dart';
 import '../../models/course.dart';
@@ -76,14 +78,14 @@ class _CourseScreenState extends State<CourseScreen> {
                       padding: const EdgeInsets.all(20),
                       child: Center(
                         child: Column(
-                          children: const [
-                            Icon(
+                          children:[
+                            const Icon(
                               Icons.data_array,
                               color: Colors.grey,
                             ),
                             Text(
-                              "No lessons attached",
-                              style: TextStyle(
+                              "No lessons attached".tr,
+                              style: const TextStyle(
                                 fontSize: 14,
                                 color: Colors.grey
                               ),
