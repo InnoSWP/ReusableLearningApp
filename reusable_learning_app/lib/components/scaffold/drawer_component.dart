@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:reusable_app/authorization/server_api.dart';
 import 'package:reusable_app/authorization/authorization_manager.dart';
 import 'package:reusable_app/models/utilities/custom_colors.dart';
-import 'package:get/get.dart';
 
 import '../../models/user.dart';
 import 'drawer_item_component.dart';
@@ -77,9 +76,9 @@ class DrawerComponentState extends State {
                                           );
                                         }
                                         else {
-                                          return Text(
-                                            "No Name".tr,
-                                            style: const TextStyle(
+                                          return const Text(
+                                            "No Name",
+                                            style: TextStyle(
                                                 fontSize: 20,
                                                 fontWeight: FontWeight.w500
                                             ),
@@ -94,7 +93,7 @@ class DrawerComponentState extends State {
                             Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  "Student".tr,
+                                  "Student",
                                   style: TextStyle(
                                       color: Colors.grey[600]
                                   ),
@@ -112,22 +111,22 @@ class DrawerComponentState extends State {
                   children: [
                     DrawerItemComponent(
                       Icons.favorite,
-                      "Favorite courses".tr,
+                      "Favorite courses",
                       route: "/favCourses",
                     ),
                     DrawerItemComponent(
                       Icons.play_lesson,
-                      "Favorite lessons".tr,
+                      "Favorite lessons",
                       route: "/favLessons",
                     ),
                     DrawerItemComponent(
                       Icons.chat,
-                      "Chat with developers".tr,
+                      "Chat with developers",
                       route: "/devChat",
                     ),
                     DrawerItemComponent(
                       Icons.create,
-                      "Edit courses/lessons".tr,
+                      "Edit courses/lessons",
                       route: "/edit",
                     ),
                   ],
