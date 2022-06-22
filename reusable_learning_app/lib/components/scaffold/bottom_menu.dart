@@ -5,8 +5,6 @@ import '../../screens/Content/courses_body.dart';
 import '../../screens/Content/shop_body.dart';
 import '../../screens/Content/settings_body.dart';
 import '../../screens/home.dart';
-import 'package:get/get.dart';
-
 
 class BottomMenu extends StatefulWidget {
 
@@ -47,11 +45,11 @@ class _BottomMenuState extends State<BottomMenu> {
       backgroundColor: CustomColors.purple,
       selectedItemColor: Colors.white,
       unselectedItemColor: Colors.grey,
-      items: [
-        BottomNavigationBarItem(icon: const Icon(Icons.home_filled, color: Colors.white,), label: 'Home'.tr),
-        BottomNavigationBarItem(icon: const Icon(Icons.shopping_cart, color: Colors.white), label: 'Shop'.tr),
-        BottomNavigationBarItem(icon: const Icon(Icons.leaderboard, color: Colors.white), label : 'Achievements'.tr),
-        BottomNavigationBarItem(icon: const Icon(Icons.settings, color: Colors.white), label : 'Settings'.tr),
+      items: const [
+        BottomNavigationBarItem(icon: Icon(Icons.home_filled, color: Colors.white,), label: 'Home'),
+        BottomNavigationBarItem(icon: Icon(Icons.shopping_cart, color: Colors.white), label: 'Shop'),
+        BottomNavigationBarItem(icon: Icon(Icons.leaderboard, color: Colors.white), label : "Achievements"),
+        BottomNavigationBarItem(icon: Icon(Icons.settings, color: Colors.white), label : "Settings"),
       ],
     );
   }

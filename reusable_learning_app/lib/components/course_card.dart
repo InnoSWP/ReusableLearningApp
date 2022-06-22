@@ -5,7 +5,6 @@ import 'package:reusable_app/models/utilities/custom_colors.dart';
 import 'package:reusable_app/screens/lessons/course_screen.dart';
 
 import '../models/course.dart';
-import 'package:get/get.dart';
 
 class CourseCard extends StatelessWidget {
   final Course course;
@@ -69,9 +68,9 @@ class CourseCard extends StatelessWidget {
                   onPressed: () {
                     goToCourse(context);
                   },
-                  child: Text(
-                    'LEARN'.tr,
-                    style: const TextStyle(
+                  child: const Text(
+                    "LEARN",
+                    style: TextStyle(
                       fontSize: 15,
                       color: CustomColors.purple
                     ),

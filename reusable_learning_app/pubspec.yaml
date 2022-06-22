@@ -23,8 +23,6 @@ dev_dependencies:
   mockito: ^5.2.0
   percent_indicator: ^4.0.1
   flip_card: ^0.6.0
-  devicelocale: ^0.5.2
-  get:
 
 flutter:
   uses-material-design: true

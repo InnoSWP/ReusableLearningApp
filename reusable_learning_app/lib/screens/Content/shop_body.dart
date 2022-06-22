@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+
 import '../../models/interfaces/nav_item.dart';
 
 class ShopBody extends StatefulWidget implements NavItem {
@@ -9,7 +9,7 @@ class ShopBody extends StatefulWidget implements NavItem {
   ShopBodyState createState() => ShopBodyState();
 
   @override
-  String title = ("Shop".tr);
+  String title = "Shop";
 }
 
 class ShopBodyState extends State<ShopBody>   {
@@ -20,8 +20,8 @@ class ShopBodyState extends State<ShopBody>   {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: Text("Shop page".tr),
+    return const Center(
+        child: Text("Shop page"),
     );
   }
 

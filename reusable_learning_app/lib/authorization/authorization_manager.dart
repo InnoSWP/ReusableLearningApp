@@ -1,11 +1,9 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:dio/dio.dart';
-import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:reusable_app/models/utilities/server_settings.dart';
 import 'package:reusable_app/models/utilities/token_api.dart';
-
 
 class AuthResult {
   bool isAuthorized = false;
@@ -23,16 +21,16 @@ class AuthorizationManager {
   Future<AuthResult> authorize(String username, String password) async {
     // check for authorization
     var data = {"username": username, "password": password};
-    var response;
+    Response? response;
     try {
       response = await _dio.post("${ServerSettings.baseUrl}/users/login/",
           data: data, queryParameters: {"Content-Type": "application/json"});
     } on DioError catch (e) {
       if (e.response == null)
-        return AuthResult()..errorMessage = "Connection to server lost.".tr;
+        return AuthResult()..errorMessage = "Connection to server lost.";
       if (e.response!.statusCode == 401) {
         return AuthResult()
-          ..errorMessage = "No active account found with the given credentials".tr;
+          ..errorMessage = "No active account found with the given credentials";
       }
     }
 
@@ -57,21 +55,21 @@ class AuthorizationManager {
   Future<AccountCreateResult> registerAccount(
       String email, String username, String password) async {
     var data = {"email": email, "username": username, "password": password};
-    var response;
+    Response? response;
     try {
       response = await _dio.post("${ServerSettings.baseUrl}/users/register/",
           queryParameters: {"Content-Type": "application/json"}, data: data);
     } on DioError catch (e) {
       if (e.response == null)
         return AccountCreateResult()
-          ..errorMessage = "Connection to server lost.".tr;
+          ..errorMessage = "Connection to server lost.";
       if (e.response!.statusCode == 400) {
         return AccountCreateResult()
-          ..errorMessage = "A user with that username already exists.".tr;
+          ..errorMessage = "A user with that username already exists.";
       }
     }
     if (response == null) {
-      return AccountCreateResult()..errorMessage = "Some error happened".tr;
+      return AccountCreateResult()..errorMessage = "Some error happened";
     }
 
     await TokenApi.setRefreshToken(response.data["refresh"]);

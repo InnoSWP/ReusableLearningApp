@@ -1,23 +1,21 @@
 import 'package:flutter/material.dart';
 import '/authorization/authorization_manager.dart';
-import 'package:get/get.dart';
-
 
 class CreatePasswordFieldValidator {
   static String? validate(String value) {
-    return value.isEmpty ? "Please entry password".tr : null;
+    return value.isEmpty ? "Please entry password" : null;
   }
 }
 
 class CreateUsernameFieldValidator {
   static String? validate(String value) {
-    return value.isEmpty ? "Please entry username".tr : null;
+    return value.isEmpty ? "Please entry username" : null;
   }
 }
 
 class CreateEmailFieldValidator {
   static String? validate(String value) {
-    return value.isEmpty ? "Please entry email".tr : null;
+    return value.isEmpty ? "Please entry email" : null;
   }
 }
 
@@ -41,7 +39,7 @@ class AccountCreationForm extends StatelessWidget {
               child: TextFormField(
                 style: const TextStyle(color: Colors.black),
                 decoration: InputDecoration(
-                  hintText: "Username".tr,
+                  hintText: "Username",
                   hintStyle: const TextStyle(color: Colors.black),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(6)),
@@ -62,7 +60,7 @@ class AccountCreationForm extends StatelessWidget {
                 keyboardType: TextInputType.emailAddress,
                 style: const TextStyle(color: Colors.black),
                 decoration: InputDecoration(
-                  hintText: "Email".tr,
+                  hintText: "Email",
                   hintStyle: const TextStyle(color: Colors.black),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(6)),
@@ -83,7 +81,7 @@ class AccountCreationForm extends StatelessWidget {
                 style: const TextStyle(color: Colors.black),
                 obscureText: true,
                 decoration: InputDecoration(
-                  hintText: "Password".tr,
+                  hintText: "Password",
                   hintStyle: const TextStyle(color: Colors.black),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(6)),
@@ -114,7 +112,7 @@ class AccountCreationForm extends StatelessWidget {
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title: Text("Error".tr),
+                            title: Text("Error"),
                             content: Text(result.errorMessage!),
                             actions: [
                               TextButton(
@@ -126,7 +124,7 @@ class AccountCreationForm extends StatelessWidget {
                   }
                 }
               },
-              child: Text("Create Account".tr)),
+              child: const Text("Create Account")),
           ElevatedButton(
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.white),
@@ -134,8 +132,8 @@ class AccountCreationForm extends StatelessWidget {
             onPressed: () async {
               Navigator.pop(context);
             },
-            child: Text("Sign In".tr,
-                style: const TextStyle(
+            child: const Text("Sign In",
+                style: TextStyle(
                     color: Colors.purple, fontSize: 15, letterSpacing: 1)),
           ),
         ],

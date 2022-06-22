@@ -6,7 +6,7 @@ import 'package:reusable_app/components/course_card.dart';
 import 'package:reusable_app/components/scaffold/custom_app_bar.dart';
 import 'package:reusable_app/models/interfaces/nav_item.dart';
 import 'package:reusable_app/models/utilities/user_info.dart';
-import 'package:get/get.dart';
+
 import '../../models/course.dart';
 import '../../models/user.dart';
 
@@ -17,7 +17,7 @@ class CoursesBody extends StatefulWidget implements NavItem {
   CoursesBodyState createState() => CoursesBodyState();
 
   @override
-  String title = ("Home".tr);
+  String title = "Home";
 }
 
 class CoursesBodyState extends State<CoursesBody>  {
