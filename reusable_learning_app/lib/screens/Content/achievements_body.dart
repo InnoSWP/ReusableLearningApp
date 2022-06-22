@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:reusable_app/models/interfaces/nav_item.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:reusable_app/models/utilities/custom_colors.dart';
+import 'package:get/get.dart';
+
 
 class AchievementsBody extends StatefulWidget implements NavItem {
   AchievementsBody({Key? key}) : super(key: key);
@@ -10,7 +12,7 @@ class AchievementsBody extends StatefulWidget implements NavItem {
   AchievementsBodyState createState() => AchievementsBodyState();
 
   @override
-  String title = "Achivements";
+  String title = ("Achievements".tr);
 }
 
 //just to store values for a while
@@ -112,7 +114,7 @@ class AchievementsBodyState extends State<AchievementsBody> {
                                 information.currentPoints / information.maxPoints,
                             center: Text(
                               "${(information.currentPoints / information.maxPoints * 100).round()} %",
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.w600
                               ),
@@ -125,7 +127,7 @@ class AchievementsBodyState extends State<AchievementsBody> {
                           child: Column(
                             children: [
                               Text(
-                                "Level ${information.level}",
+                                "${'Level'.tr} ${information.level}",
                                 style: const TextStyle(
                                   fontSize: 25, fontWeight: FontWeight.bold
                                 ),
@@ -137,14 +139,14 @@ class AchievementsBodyState extends State<AchievementsBody> {
                                       style: const TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold)),
-                                    Text("/ ${information.maxPoints} points")
+                                    Text("/ ${information.maxPoints} ${'points'.tr}")
                                   ]
                                 )
                               ),
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
                                 child: Text(
-                                  "${information.maxPoints - information.currentPoints} to Level ${information.level + 1}"
+                                  "${information.maxPoints - information.currentPoints} ${'to Level'.tr} ${information.level + 1}"
                                 )
                               )
                             ],
@@ -168,9 +170,9 @@ class AchievementsBodyState extends State<AchievementsBody> {
                                     style: const TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold))),
-                            const Padding(
-                                padding: EdgeInsets.fromLTRB(6, 5, 0, 0),
-                                child: Text("points")),
+                            Padding(
+                                padding: const EdgeInsets.fromLTRB(6, 5, 0, 0),
+                                child: Text("points".tr)),
                             const Spacer(),
                             Padding(
                                 padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
@@ -191,9 +193,9 @@ class AchievementsBodyState extends State<AchievementsBody> {
                                     style: const TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold))),
-                            const Padding(
+                            Padding(
                                 padding: EdgeInsets.fromLTRB(6, 5, 0, 0),
-                                child: Text("lessons")),
+                                child: Text("lessons".tr)),
                             const Spacer(),
                             Padding(
                                 padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
@@ -210,13 +212,13 @@ class AchievementsBodyState extends State<AchievementsBody> {
                           Row(children: [
                             Padding(
                                 padding: const EdgeInsets.fromLTRB(15, 5, 0, 0),
-                                child: Text("${information.dayStreak} day",
+                                child: Text("${information.dayStreak} ${'day'.tr}",
                                     style: const TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold))),
-                            const Padding(
-                                padding: EdgeInsets.fromLTRB(6, 5, 0, 0),
-                                child: Text("streak")),
+                            Padding(
+                                padding: const EdgeInsets.fromLTRB(6, 5, 0, 0),
+                                child: Text("streak".tr)),
                             const Spacer(),
                             Padding(
                                 padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
@@ -237,9 +239,9 @@ class AchievementsBodyState extends State<AchievementsBody> {
                                     style: const TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold))),
-                            const Padding(
-                                padding: EdgeInsets.fromLTRB(6, 5, 0, 0),
-                                child: Text("min")),
+                            Padding(
+                                padding: const EdgeInsets.fromLTRB(6, 5, 0, 0),
+                                child: Text("min".tr)),
                             const Spacer(),
                             Padding(
                                 padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),

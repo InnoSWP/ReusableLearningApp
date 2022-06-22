@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:reusable_app/models/notification.dart';
-
+import 'package:get/get.dart';
 import '../../components/scaffold/bottom_menu.dart';
 import '../../models/utilities/custom_colors.dart';
 
@@ -23,7 +23,7 @@ class NotificationsBodyState extends State<NotificationsBody> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Notifications"),
+          title: Text("Notifications".tr),
           backgroundColor: CustomColors.purple,
           leading: IconButton(
               onPressed: () {

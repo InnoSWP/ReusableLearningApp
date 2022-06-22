@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import '/authorization/authorization_manager.dart';
+import 'package:get/get.dart';
+
 
 class PasswordFieldValidator {
   static String? validate(String value) {
-    return value.isEmpty ? "Please entry password" : null;
+    return value.isEmpty ? "Please entry password".tr : null;
   }
 }
 
 class UsernameFieldValidator {
   static String? validate(String value) {
-    return value.isEmpty ? "Please entry username" : null;
+    return value.isEmpty ? "Please entry username".tr : null;
   }
 }
 
@@ -32,7 +34,7 @@ class AuthForm extends StatelessWidget {
               child: TextFormField(
                 style: const TextStyle(color: Colors.black),
                 decoration: InputDecoration(
-                  hintText: "Username",
+                  hintText: "Username".tr,
                   hintStyle: const TextStyle(color: Colors.black),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(6)),
@@ -52,7 +54,7 @@ class AuthForm extends StatelessWidget {
                 style: const TextStyle(color: Colors.black),
                 obscureText: true,
                 decoration: InputDecoration(
-                  hintText: "Password",
+                  hintText: "Password".tr,
                   hintStyle: const TextStyle(color: Colors.black),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(6)),
@@ -81,7 +83,7 @@ class AuthForm extends StatelessWidget {
                   showDialog(
                       context: context,
                       builder: (BuildContext context) => AlertDialog(
-                            title: Text("Error"),
+                            title: Text("Error".tr),
                             content: Text(result.errorMessage!),
                             actions: [
                               TextButton(
@@ -92,7 +94,7 @@ class AuthForm extends StatelessWidget {
                 }
               }
             },
-            child: const Text("Sign In"),
+            child: Text("Sign In".tr),
           ),
           ElevatedButton(
             style: ButtonStyle(
@@ -101,8 +103,8 @@ class AuthForm extends StatelessWidget {
             onPressed: () {
               Navigator.pushNamed(context, "/create");
             },
-            child: const Text("Create Account",
-                style: TextStyle(
+            child: Text("Create Account".tr,
+                style: const TextStyle(
                     color: Colors.purple, fontSize: 15, letterSpacing: 1)),
           )
         ],
