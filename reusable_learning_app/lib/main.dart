@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:reusable_app/locale_string.dart';
+import 'package:reusable_app/models/utilities/token_api.dart';
 import 'package:reusable_app/models/utilities/custom_colors.dart';
-import 'package:reusable_app/screens/drawer/fav_courses.dart';
 import 'package:reusable_app/screens/home.dart';
 import 'package:reusable_app/screens/lessons/course_screen.dart';
 import 'package:reusable_app/screens/lessons/lesson_screen.dart';
 import 'authorization/authorization_manager.dart';
 import 'screens/authorization/authorization_screen.dart';
+import 'package:get/get.dart';
 
 void main() {
   runApp(const LearningApp());
@@ -19,11 +21,14 @@ class LearningApp extends StatefulWidget {
 }
 
 class _LearningAppState extends State {
+
   var manager = AuthorizationManager();
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
+      translations: LocalString(),
+      locale: const Locale('en', 'US'),
       theme: ThemeData(primaryColor: CustomColors.purple),
       routes: {
         "/home": (context) => Home(),
@@ -31,8 +36,7 @@ class _LearningAppState extends State {
         "/create": (context) => const AuthorizationScreen(),
         "/course": (context) => const CourseScreen(),
         "/lesson": (context) => const LessonScreen(),
-        "/favCourses": (context) => const FavCourses(),
-        // TODO new routes: /favLessons, /devChat, /edit
+        // TODO new routes: /favCourses, /favLessons, /devChat, /edit
       },
       home: FutureBuilder<bool>(
         future: manager.isAuthorized(),
@@ -55,3 +59,4 @@ class _LearningAppState extends State {
     );
   }
 }
+
