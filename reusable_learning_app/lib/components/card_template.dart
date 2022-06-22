@@ -13,21 +13,9 @@ class CardTemplate extends StatefulWidget {
 class _CardTemplateState extends State<CardTemplate> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Card(
       margin: const EdgeInsets.symmetric(horizontal: 7, vertical: 10),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(6),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 2,
-              blurRadius: 4,
-              offset: const Offset(0, 4),
-            )
-          ]
-      ),
-
+      elevation: 4,
       child: widget.child
     );
   }

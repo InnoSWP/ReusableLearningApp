@@ -19,10 +19,10 @@ class BottomMenu extends StatefulWidget {
   }
   static void navigateFromOtherPage(BuildContext context, int index){
     Navigator.push(
-        context,
-        PageRouteBuilder(pageBuilder: (context, _, __) {
-          return Home(startIndex: index);
-        })
+      context,
+      PageRouteBuilder(pageBuilder: (context, _, __) {
+        return Home(startIndex: index);
+      })
     );
     BottomMenu.curIndex = index;
   }
@@ -44,7 +44,7 @@ class _BottomMenuState extends State<BottomMenu> {
       currentIndex: BottomMenu.curIndex,
       onTap: widget.onTap,
       type: BottomNavigationBarType.fixed,
-      backgroundColor: CustomColors.purple,
+      backgroundColor: Theme.of(context).bottomAppBarTheme.color,
       selectedItemColor: Colors.white,
       unselectedItemColor: Colors.grey,
       items: [

@@ -104,3 +104,7 @@ var stringToLocale = {
   'Русский' : Locale('ru', 'Ru'),
   'English' : Locale('en', 'US')
 };
+var localeToString = {
+  Locale('ru-RU') : 'Русский',
+  Locale('en-US') : 'English'
+};

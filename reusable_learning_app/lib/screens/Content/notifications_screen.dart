@@ -24,7 +24,7 @@ class NotificationsBodyState extends State<NotificationsBody> {
     return Scaffold(
         appBar: AppBar(
           title: Text("Notifications".tr),
-          backgroundColor: CustomColors.purple,
+          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
           leading: IconButton(
               onPressed: () {
                 Navigator.pop(context);
