@@ -16,13 +16,29 @@ class _CustomAppBarState extends State<CustomAppBar> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-
       backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-      title: Text(widget.barTitle.tr, textAlign: TextAlign.center),
+      iconTheme: const IconThemeData(
+        color: Colors.white
+      ),
+      title: Text(
+        widget.barTitle.tr,
+        textAlign: TextAlign.center,
+        style: const TextStyle(
+          color: Colors.white
+        ),
+      ),
       actions: [
         Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-            child: IconButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationsBody()));}, icon: const Icon(Icons.notifications))),
+          padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+          child: IconButton(onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => NotificationsBody())
+            );
+          },
+          icon: const Icon(Icons.notifications, color: Colors.white,)
+          )
+        ),
       ],
     );
   }

@@ -79,9 +79,11 @@ class AuthForm extends StatelessWidget {
           ),
           ElevatedButton(
             style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(
+                CustomColors.purpleDark
+              ),
               textStyle: MaterialStateProperty.all(
                 const TextStyle(
-
                   fontSize: 15,
                   letterSpacing: 1
                 )

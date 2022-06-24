@@ -27,6 +27,7 @@ dev_dependencies:
   get:
   shared_preferences:
   provider:
+  awesome_notifications:
 
 flutter:
   uses-material-design: true

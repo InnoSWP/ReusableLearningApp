@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../models/utilities/custom_colors.dart';
 import '/authorization/authorization_manager.dart';
 import 'package:get/get.dart';
 
@@ -110,6 +111,9 @@ class AccountCreationForm extends StatelessWidget {
           ),
           ElevatedButton(
             style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(
+                    CustomColors.purpleDark
+                ),
                 textStyle: MaterialStateProperty.all(const TextStyle(
                     color: Colors.white, fontSize: 15, letterSpacing: 1))),
             onPressed: () async {

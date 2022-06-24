@@ -47,6 +47,13 @@ class AppThemes {
     ),
     drawerTheme: const DrawerThemeData(
       backgroundColor: CustomColors.appBarDark
+    ),
+
+    snackBarTheme: const SnackBarThemeData(
+      backgroundColor: CustomColors.appBarDark,
+      contentTextStyle: TextStyle(
+        color: Colors.white,
+      ),
     )
   );
   static final lightTheme = ThemeData(
@@ -93,6 +100,12 @@ class AppThemes {
     drawerTheme: const DrawerThemeData(
       backgroundColor: Colors.white
     ),
+    snackBarTheme: const SnackBarThemeData(
+      backgroundColor: CustomColors.appBarDark,
+      contentTextStyle: TextStyle(
+        color: Colors.white,
+      ),
+    )
 
   );
 }
