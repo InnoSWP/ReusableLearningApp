@@ -33,6 +33,7 @@ class DrawerComponentState extends State {
       builder: (context, snapshot) {
         if(snapshot.hasData) {
           return Drawer(
+
             backgroundColor: Theme.of(context).drawerTheme.backgroundColor,
             child: Column(
               children: [

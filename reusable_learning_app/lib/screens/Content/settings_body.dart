@@ -9,6 +9,10 @@ import '../../locale_string.dart';
 import '../../models/interfaces/nav_item.dart';
 import '../../main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
+
+import '../set_notifications_screen.dart';
+
 
 class SettingsBody extends StatefulWidget implements NavItem   {
   SettingsBody({Key? key}) : super(key: key);
@@ -48,7 +52,11 @@ class SettingsBodyState extends State<SettingsBody> {
     });
   }
 
-  void _goToNotificationsPage() {}
+  void _goToNotificationsPage(BuildContext context) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => NotificationsStateful())
+    );
+  }
 
   void _goToSupportPage() {}
 
@@ -197,12 +205,10 @@ class SettingsBodyState extends State<SettingsBody> {
                                   color: Colors.deepPurpleAccent,
                                 ),
 
-                                onChanged: (String? value) {
-                                  setState(() async {
-                                    _dropdownValue = value!;
-                                    prefs.setString('dropdownValue', value);
-                                    Get.updateLocale(stringToLocale[_dropdownValue]!);
-                                  });
+                                onChanged: (String? value) async {
+                                  await prefs.setString('dropdownValue', value!);
+                                  _dropdownValue = value;
+                                  await Get.updateLocale(stringToLocale[_dropdownValue]!);
                                 },
                                 items: <String>['English', 'Русский']
                                   .map<DropdownMenuItem<String>>(
@@ -254,7 +260,15 @@ class SettingsBodyState extends State<SettingsBody> {
               padding: const EdgeInsets.only(left: 7, right: 7, bottom: 11),
               child: CardTemplate(
                 child: TextButton(
-                  onPressed: () {  },
+                  onPressed: () {
+                    AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
+                      if(!isAllowed) {
+                        AwesomeNotifications().requestPermissionToSendNotifications();
+                      }
+
+                    });
+                    _goToNotificationsPage(context);
+                  },
                   child: Padding(
                     padding: const EdgeInsets.only(left: 10),
                     child: Row(
@@ -267,7 +281,7 @@ class SettingsBodyState extends State<SettingsBody> {
                             )
                         ),
                         IconButton(
-                            onPressed: _goToNotificationsPage,
+                            onPressed: () {},
                             icon: const Icon(Icons.keyboard_arrow_right))
                       ],
                     ),
