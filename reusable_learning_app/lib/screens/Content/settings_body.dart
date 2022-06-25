@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:reusable_app/authorization/authorization_manager.dart';
 import 'package:reusable_app/components/card_template.dart';
+import 'package:reusable_app/models/token_secure_storage.dart';
 import 'package:reusable_app/models/utilities/custom_colors.dart';
 import 'package:reusable_app/providers/theme_provider.dart';
 import '../../locale_string.dart';
@@ -41,7 +42,7 @@ class SettingsBodyState extends State<SettingsBody> {
   }
 
   void _exitFromAnAccount() {
-    AuthorizationManager().logout();
+    AuthorizationManager(storage: TokenSecureStorage()).logout();
     Navigator.pushNamed(context, "/authorize");
   }
 

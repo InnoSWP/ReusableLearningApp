@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:reusable_app/components/scaffold/bottom_menu.dart';
 import 'package:reusable_app/components/scaffold/custom_app_bar.dart';
+import 'package:reusable_app/models/token_secure_storage.dart';
 
 import '../../authorization/server_api.dart';
 import '../../components/course_card.dart';
@@ -18,7 +19,7 @@ class FavCourses extends StatefulWidget {
 class _FavCoursesState extends State<FavCourses> {
   late Future<List<Course>> _coursesInfo;
   late Future<List<int>> _favCourses;
-  ServerApi serverApi = ServerApi();
+  ServerApi serverApi = ServerApi(storage: TokenSecureStorage());
 
   @override
   void initState() {
