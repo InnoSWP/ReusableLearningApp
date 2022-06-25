@@ -46,9 +46,17 @@ class AuthorizationManager {
         return AuthResult()
           ..errorMessage = "No active account found with the given credentials".tr;
       }
+      if (e.response!.statusCode == 400) {
+        return AuthResult()
+          ..errorMessage = "Bad Request".tr;
+      }
+      else {
+        return AuthResult()
+        ..errorMessage = "Mysterious error happened".tr;
+      }
     }
 
-    await storage.setRefreshToken(response?.data["refresh"]);
+    await storage.setRefreshToken(response!.data["refresh"]);
     await storage.setAccessToken(response!.data["access"]);
 
     return AuthResult()..isAuthorized = true;
