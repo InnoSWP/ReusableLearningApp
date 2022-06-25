@@ -5,6 +5,7 @@ import 'package:reusable_app/components/scaffold/bottom_menu.dart';
 import 'package:reusable_app/components/course_card.dart';
 import 'package:reusable_app/components/scaffold/custom_app_bar.dart';
 import 'package:reusable_app/models/interfaces/nav_item.dart';
+import 'package:reusable_app/models/token_secure_storage.dart';
 import 'package:reusable_app/models/utilities/user_info.dart';
 import 'package:get/get.dart';
 import '../../models/course.dart';
@@ -24,7 +25,7 @@ class CoursesBodyState extends State<CoursesBody>  {
   late Future<List<Course>> _coursesInfo;
   late Future<List<int>> _favCourses;
   late Future<User> _user;
-  ServerApi serverApi = ServerApi();
+  ServerApi serverApi = ServerApi(storage: TokenSecureStorage());
 
   @override
   void initState() {

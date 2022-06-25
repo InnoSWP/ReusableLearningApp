@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:reusable_app/authorization/server_api.dart';
 import 'package:reusable_app/authorization/authorization_manager.dart';
+import 'package:reusable_app/models/token_secure_storage.dart';
 import 'package:reusable_app/models/utilities/custom_colors.dart';
 import 'package:get/get.dart';
 
@@ -18,7 +19,7 @@ class DrawerComponent extends StatefulWidget {
 }
 
 class DrawerComponentState extends State {
-  final ServerApi _api = ServerApi();
+  final ServerApi _api = ServerApi(storage: TokenSecureStorage());
   late Future<User> selfInfo;
   @override
   void initState() {

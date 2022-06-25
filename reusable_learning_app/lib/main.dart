@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:reusable_app/locale_string.dart';
+import 'package:reusable_app/models/token_secure_storage.dart';
 import 'package:reusable_app/models/utilities/notification_service.dart';
 import 'package:reusable_app/providers/theme_provider.dart';
 import 'package:reusable_app/screens/drawer/fav_courses.dart';
@@ -68,7 +69,7 @@ class LearningApp extends StatefulWidget {
 
 class _LearningAppState extends State {
 
-  var manager = AuthorizationManager();
+  var manager = AuthorizationManager(storage: TokenSecureStorage());
   @override
   Widget build(BuildContext context) {
 
