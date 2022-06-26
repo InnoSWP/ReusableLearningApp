@@ -27,7 +27,7 @@ class ServerApi {
     await storage.setRefreshToken(response.data["refresh"]);
   }
 
-  Future<Response> post(String? relativeUrl, Map<dynamic, dynamic> data) async {
+  Future<Response> post(String? relativeUrl, {Map<dynamic, dynamic>? data}) async {
     await refreshTokens();
     var access = await storage.getAccessToken();
     var fullUrl = "$_baseUrl$relativeUrl";
@@ -57,6 +57,24 @@ class ServerApi {
     }
     return response;
   }
+  Future<Response> delete(String? relativeUrl) async {
+    await refreshTokens();
+    var response;
+    var access = await storage.getAccessToken();
+    var fullUrl = "$_baseUrl$relativeUrl";
+    try {
+      response = await _dio.delete(
+        fullUrl,
+        options: Options(
+            headers: {"Authorization": "Bearer $access"}
+        )
+      );
+    }
+    on DioError catch(e) {
+      print(e.message);
+    }
+    return response;
+  }
   Future<User> getSelfInfo() async {
     var response = await get("/users/me/");
     var user = User.fromMap(response.data);
@@ -75,4 +93,25 @@ class ServerApi {
     return UserInfo.favouriteCourses!;
   }
 
+  changeFavoriteCourseState(int id) {
+    if(UserInfo.favouriteCourses!.contains(id)) {
+      _removeCourseFromFavorite(id);
+      UserInfo.favouriteCourses!.remove(id);
+    }
+    else {
+      _addCourseToFavorite(id);
+      UserInfo.favouriteCourses!.add(id);
+    }
+  }
+
+  _addCourseToFavorite(int id) async {
+    var response = await post(
+      "/favorites/courses/add/$id/",
+    );
+  }
+  _removeCourseFromFavorite(int id) async {
+    var response = await delete(
+      "/favorites/courses/add/$id/",
+    );
+  }
 }

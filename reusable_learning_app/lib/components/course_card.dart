@@ -1,23 +1,42 @@
 
 import 'package:flutter/material.dart';
+import 'package:reusable_app/authorization/authorization_manager.dart';
+import 'package:reusable_app/authorization/server_api.dart';
 import 'package:reusable_app/components/card_template.dart';
+import 'package:reusable_app/models/token_secure_storage.dart';
 import 'package:reusable_app/models/utilities/custom_colors.dart';
 import 'package:reusable_app/screens/lessons/course_screen.dart';
 
 import '../models/course.dart';
 import 'package:get/get.dart';
 
-class CourseCard extends StatelessWidget {
-  final Course course;
-  final bool isFav;
 
-  const CourseCard({Key? key, required this.course, required this.isFav}) : super(key: key);
+class CourseCard extends StatefulWidget {
+  final Course course;
+  late bool isFav;
+
+  CourseCard({Key? key, required this.course, required bool isFav}) : super(key: key) {
+    this.isFav = isFav;
+  }
+
+  @override
+  State<StatefulWidget> createState() => CourseCardState();
+
+}
+
+
+class CourseCardState extends State<CourseCard> {
+
+  ServerApi api = ServerApi(storage: TokenSecureStorage());
 
   void goToCourse(BuildContext context) {
     Navigator.of(context).pushNamed(
       "/course",
-      arguments: course
+      arguments: widget.course
     );
+  }
+  Future changeFavoriteCourseState(int id) async {
+    await api.changeFavoriteCourseState(id);
   }
 
   @override
@@ -38,14 +57,14 @@ class CourseCard extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 10),
                     child: Text(
-                      course.name,
+                      widget.course.name,
                       style: Theme.of(context).textTheme.titleMedium
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 5),
                     child: Text(
-                      course.description,
+                      widget.course.description,
                       style: Theme.of(context).textTheme.bodySmall,
                       maxLines: 6,
 
@@ -69,10 +88,13 @@ class CourseCard extends StatelessWidget {
                 ),
                 InkWell(
                   child: IconButton(
-                    icon: isFav ?
+                    icon: widget.isFav ?
                       const Icon(Icons.favorite) : const Icon(Icons.favorite_outline),
-                    onPressed: () {
-                      print("dw");
+                    onPressed: () async {
+                      await changeFavoriteCourseState(widget.course.id);
+                      setState(() {
+                        widget.isFav = !widget.isFav;
+                      });
                     },
                   ),
                 ),
