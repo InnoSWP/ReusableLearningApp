@@ -24,5 +24,6 @@ urlpatterns = [
     path('courses/', include('courses.urls')),
     path('lessons/', include('lessons.urls')),
     path('favorites/', include('favorites.urls')),
+    path('progress/', include('progress.urls')),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
