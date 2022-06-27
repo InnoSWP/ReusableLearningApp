@@ -49,7 +49,7 @@ class NotificationsBodyState extends State<NotificationsBody> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "No notifications yet",
+                          "No notifications yet".tr,
                           style: TextStyle(
                             color: Colors.grey.shade600,
                             fontSize: 25

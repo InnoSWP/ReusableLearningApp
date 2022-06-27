@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart' hide Notification;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../notification.dart';
+import 'package:get/get.dart';
 import 'package:awesome_notifications/awesome_notifications.dart' ;
 
 
@@ -37,7 +38,7 @@ class NotificationService {
       TimeOfDay now = TimeOfDay.now();
       setNotification(
         Notification(
-          "Notification",
+          "Notification".tr,
           received.title,
           received.body,
           now.hour,

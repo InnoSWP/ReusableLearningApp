@@ -50,6 +50,22 @@ class LocalString extends Translations{
       "streak" : "streak",
       'min' : 'min',
 
+      'No notifications yet' : "No notifications yet",
+      "Notification" : "Notification",
+      "Hey! It is time to learn!" : "Hey! It is time to learn!",
+      "New Notification!" : "New Notification!",
+      'Notification has been created!' : 'Notification has been created!',
+      "Enable daily reminder" : "Enable daily reminder",
+      "Select Time" : "Select Time",
+      "Submit" : "Submit",
+      "Input message:" : "Input message:",
+
+      "Cancel" : "Cancel",
+      "Select time" : "Select time",
+      "Hour" : "Hour",
+      "Minute" : "Minute",
+
+
     },
     'ru_RU':{
       'Home' : 'Главная',
@@ -96,6 +112,21 @@ class LocalString extends Translations{
       'day' : 'дни',
       "streak" : "подряд",
       'min' : 'мин',
+
+      'No notifications yet' : "Нет новых уведомлений",
+      "Notification" : "Уведомление",
+      "Hey! It is time to learn!" : "Хей! Самое время для учебы!",
+      "New Notification!" : "Новое уведомление!",
+      'Notification has been created!' : 'Уведомление создано!',
+      "Enable daily reminder" : "Включить ежедневное уведомление",
+      "Select Time" : "Выбрать время",
+      "Submit" : "Отправить",
+      "Input message:" : "Текст уведомления:",
+
+      "Cancel" : "Назад",
+      "Select time" : "Выберите время",
+      "Hour" : "Часы",
+      "Minute" : "Минуты",
     }
   };
 }
