@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reusable_app/models/token_secure_storage.dart';
 import 'package:reusable_app/models/utilities/custom_colors.dart';
 import '/authorization/authorization_manager.dart';
 import 'package:get/get.dart';
@@ -17,7 +18,7 @@ class UsernameFieldValidator {
 }
 
 class AuthForm extends StatelessWidget {
-  final manager = AuthorizationManager();
+  final manager = AuthorizationManager(storage: TokenSecureStorage());
   final _formKey = GlobalKey<FormState>();
   AuthForm({Key? key}) : super(key: key);
 
@@ -79,9 +80,11 @@ class AuthForm extends StatelessWidget {
           ),
           ElevatedButton(
             style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(
+                CustomColors.purpleDark
+              ),
               textStyle: MaterialStateProperty.all(
                 const TextStyle(
-
                   fontSize: 15,
                   letterSpacing: 1
                 )
@@ -90,7 +93,7 @@ class AuthForm extends StatelessWidget {
             onPressed: () async {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
-                var result = await AuthorizationManager()
+                var result = await manager
                   .authorize(_username, _password);
                 if (result.isAuthorized) {
                   Navigator.pushNamed(context, "/home");

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:reusable_app/models/token_secure_storage.dart';
+import '../../models/utilities/custom_colors.dart';
 import '/authorization/authorization_manager.dart';
 import 'package:get/get.dart';
 
@@ -22,7 +24,7 @@ class CreateEmailFieldValidator {
 }
 
 class AccountCreationForm extends StatelessWidget {
-  final manager = AuthorizationManager();
+  final manager = AuthorizationManager(storage: TokenSecureStorage());
   final _formKey = GlobalKey<FormState>();
   AccountCreationForm({Key? key}) : super(key: key);
 
@@ -110,6 +112,9 @@ class AccountCreationForm extends StatelessWidget {
           ),
           ElevatedButton(
             style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(
+                    CustomColors.purpleDark
+                ),
                 textStyle: MaterialStateProperty.all(const TextStyle(
                     color: Colors.white, fontSize: 15, letterSpacing: 1))),
             onPressed: () async {

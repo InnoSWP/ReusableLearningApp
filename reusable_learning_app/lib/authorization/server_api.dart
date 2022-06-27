@@ -1,17 +1,35 @@
+import 'package:reusable_app/authorization/authorization_manager.dart';
+import 'package:reusable_app/models/interfaces/ITokenStorage.dart';
 import 'package:reusable_app/models/utilities/server_settings.dart';
 import 'package:reusable_app/models/utilities/user_info.dart';
 import '../models/course.dart';
 import '../models/user.dart';
 import 'package:dio/dio.dart';
-import '../models/utilities/token_api.dart';
+import '../models/token_secure_storage.dart';
 
 class ServerApi {
   final _baseUrl = ServerSettings.baseUrl;
   final _dio = Dio();
+  late ITokenStorage storage;
+
+  ServerApi({required this.storage});
+
+  Future refreshTokens() async {
+    var token = await storage.getRefreshToken();
+    if (token == null) return;
+    var response = await _dio.post(
+        "${ServerSettings.baseUrl}/users/refresh/",
+        data: { "refresh": token }
+    );
+    if(response.statusCode != 200) return;
+
+    await storage.setAccessToken(response.data["access"]);
+    await storage.setRefreshToken(response.data["refresh"]);
+  }
 
   Future<Response> post(String? relativeUrl, Map<dynamic, dynamic> data) async {
-    await TokenApi.refreshTokens();
-    var access = await TokenApi.getAccessToken();
+    await refreshTokens();
+    var access = await storage.getAccessToken();
     var fullUrl = "$_baseUrl$relativeUrl";
     var response = await _dio.post(
       fullUrl,
@@ -22,9 +40,9 @@ class ServerApi {
   }
 
   Future<Response> get(String? relativeUrl) async {
-    await TokenApi.refreshTokens();
+    await refreshTokens();
     var response;
-    var access = await TokenApi.getAccessToken();
+    var access = await storage.getAccessToken();
     var fullUrl = "$_baseUrl$relativeUrl";
     try {
       response = await _dio.get(
@@ -39,7 +57,6 @@ class ServerApi {
     }
     return response;
   }
-
   Future<User> getSelfInfo() async {
     var response = await get("/users/me/");
     var user = User.fromMap(response.data);
@@ -52,16 +69,10 @@ class ServerApi {
     return (response.data as List<dynamic>).map((e) => Course.fromMap(e)).toList();
   }
   Future<List<int>> getFavouriteCoursesId() async {
-    try {
-      int id = UserInfo.me!.id;
-      var response = await get("/favorites/courses/courses/$id/");
-      UserInfo.favouriteCourses = (response.data as List<dynamic>).map((e) => e as int).toList();
-      return UserInfo.favouriteCourses!;
-    }
-    on DioError catch (e) {
-      print("haha");
-      return [53453453];
-    }
-
+    int id = UserInfo.me!.id;
+    var response = await get("/favorites/courses/courses/$id/");
+    UserInfo.favouriteCourses = (response.data as List<dynamic>).map((e) => e as int).toList();
+    return UserInfo.favouriteCourses!;
   }
+
 }

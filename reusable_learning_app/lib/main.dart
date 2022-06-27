@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:reusable_app/locale_string.dart';
-import 'package:reusable_app/models/utilities/token_api.dart';
-import 'package:reusable_app/models/utilities/custom_colors.dart';
+import 'package:reusable_app/models/token_secure_storage.dart';
+import 'package:reusable_app/models/utilities/notification_service.dart';
 import 'package:reusable_app/providers/theme_provider.dart';
 import 'package:reusable_app/screens/drawer/fav_courses.dart';
 import 'package:reusable_app/screens/home.dart';
@@ -14,6 +14,7 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:devicelocale/devicelocale.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 
 late SharedPreferences prefs;
 Future<void> setDefault() async{
@@ -34,6 +35,26 @@ Future<void> setDefault() async{
 }
 
 Future<void> main() async {
+  AwesomeNotifications().initialize(null,
+    [
+      NotificationChannel(
+        channelKey: "basic_channel",
+        channelName: "Basic Notifications",
+        channelDescription: "Basic Notifications Description",
+        importance: NotificationImportance.High,
+        channelShowBadge: true
+      ),
+      NotificationChannel(
+        channelKey: "scheduled_channel",
+        channelName: "Scheduled Notifications",
+        channelDescription: "Scheduled Notifications Description",
+        importance: NotificationImportance.High,
+        locked: true,
+        channelShowBadge: true
+      ),
+    ]
+  );
+  NotificationService.init();
   WidgetsFlutterBinding.ensureInitialized();
   prefs = await SharedPreferences.getInstance();
   setDefault().then((value) => runApp(const LearningApp()));
@@ -48,7 +69,7 @@ class LearningApp extends StatefulWidget {
 
 class _LearningAppState extends State {
 
-  var manager = AuthorizationManager();
+  var manager = AuthorizationManager(storage: TokenSecureStorage());
   @override
   Widget build(BuildContext context) {
 

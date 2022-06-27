@@ -30,7 +30,8 @@ class _AuthorizationScreenState extends State {
                   child: const Text(
                     "ReusApp",
                     style: TextStyle(
-                      fontSize: 45
+                      fontSize: 45,
+                      color: Colors.white
                     ),
                   ),
                 ),
