@@ -6,6 +6,7 @@ import 'package:reusable_app/components/card_template.dart';
 import 'package:reusable_app/models/token_secure_storage.dart';
 import 'package:reusable_app/models/utilities/custom_colors.dart';
 import 'package:reusable_app/providers/theme_provider.dart';
+import 'package:reusable_app/screens/Content/shop_body.dart';
 import '../../locale_string.dart';
 import '../../models/interfaces/nav_item.dart';
 import '../../main.dart';
@@ -27,15 +28,12 @@ class SettingsBody extends StatefulWidget implements NavItem   {
 
 class SettingsBodyState extends State<SettingsBody> {
 
-
-  late String _amountOfBonuses;
   late bool _isAudioOn;
   late String _dropdownValue;
 
   @override
   void initState() {
     super.initState();
-    _amountOfBonuses = "500";
     // _isNightMode = prefs.getBool('nightMode')!;
     _isAudioOn = prefs.getBool('audioOn')!;
     _dropdownValue = prefs.getString('dropdownValue')!;
@@ -125,7 +123,7 @@ class SettingsBodyState extends State<SettingsBody> {
                           Row(
                             children: [
                               Text(
-                                _amountOfBonuses,
+                                amountOfBonuses,
                                 style: const TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold
