@@ -49,7 +49,8 @@ class _FavCoursesState extends State<FavCourses> {
                 physics: const BouncingScrollPhysics(),
                 itemCount: (snapshot.data![0] as List<Course>).length,
                 itemBuilder: (context, index) {
-                  var isFav = (snapshot.data![1] as List<int>).contains(index + 1);
+                  var isFav = (snapshot.data![1] as List<int>).contains((snapshot.data![0] as List<Course>)[index].id);
+
                   if(isFav) {
                     return CourseCard(
                       course: snapshot.data![0][index],

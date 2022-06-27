@@ -33,8 +33,10 @@ class ServerApi {
     var fullUrl = "$_baseUrl$relativeUrl";
     var response = await _dio.post(
       fullUrl,
-      queryParameters: { "Authorization": "Bearer $access" },
-      data: data
+      data: data,
+      options: Options(
+          headers: {"Authorization": "Bearer $access"}
+      )
     );
     return response;
   }
@@ -62,17 +64,12 @@ class ServerApi {
     var response;
     var access = await storage.getAccessToken();
     var fullUrl = "$_baseUrl$relativeUrl";
-    try {
-      response = await _dio.delete(
-        fullUrl,
-        options: Options(
-            headers: {"Authorization": "Bearer $access"}
-        )
-      );
-    }
-    on DioError catch(e) {
-      print(e.message);
-    }
+    response = await _dio.delete(
+      fullUrl,
+      options: Options(
+          headers: {"Authorization": "Bearer $access"}
+      )
+    );
     return response;
   }
   Future<User> getSelfInfo() async {
@@ -93,25 +90,37 @@ class ServerApi {
     return UserInfo.favouriteCourses!;
   }
 
-  changeFavoriteCourseState(int id) {
+  Future<bool> changeFavoriteCourseState(int id) async {
     if(UserInfo.favouriteCourses!.contains(id)) {
-      _removeCourseFromFavorite(id);
       UserInfo.favouriteCourses!.remove(id);
+      return await _removeCourseFromFavorite(id);
     }
     else {
-      _addCourseToFavorite(id);
       UserInfo.favouriteCourses!.add(id);
+      return await _addCourseToFavorite(id);
+    }
+  }
+  Future<bool> _addCourseToFavorite(int id) async {
+    try {
+      var response = await post(
+        "/favorites/courses/add/$id/",
+      );
+      return response.statusCode == 201;
+    }
+    catch(e) {
+      return false;
+    }
+  }
+  Future<bool> _removeCourseFromFavorite(int id) async {
+    try {
+      var response = await delete(
+        "/favorites/courses/add/$id/",
+      );
+      return response.statusCode == 204;
+    }
+    catch(e) {
+      return false;
     }
   }
 
-  _addCourseToFavorite(int id) async {
-    var response = await post(
-      "/favorites/courses/add/$id/",
-    );
-  }
-  _removeCourseFromFavorite(int id) async {
-    var response = await delete(
-      "/favorites/courses/add/$id/",
-    );
-  }
 }

@@ -21,7 +21,6 @@ class CourseCard extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() => CourseCardState();
-
 }
 
 
@@ -35,8 +34,9 @@ class CourseCardState extends State<CourseCard> {
       arguments: widget.course
     );
   }
-  Future changeFavoriteCourseState(int id) async {
-    await api.changeFavoriteCourseState(id);
+  Future<bool> changeFavoriteCourseState(int id) async {
+    var result = await api.changeFavoriteCourseState(id);
+    return result;
   }
 
   @override
@@ -91,10 +91,11 @@ class CourseCardState extends State<CourseCard> {
                     icon: widget.isFav ?
                       const Icon(Icons.favorite) : const Icon(Icons.favorite_outline),
                     onPressed: () async {
-                      await changeFavoriteCourseState(widget.course.id);
-                      setState(() {
-                        widget.isFav = !widget.isFav;
-                      });
+                      if (await changeFavoriteCourseState(widget.course.id)) {
+                        setState(() {
+                          widget.isFav = !widget.isFav;
+                        });
+                      }
                     },
                   ),
                 ),
