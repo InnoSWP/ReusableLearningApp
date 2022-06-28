@@ -27,51 +27,48 @@ class ServerApi {
     await storage.setRefreshToken(response.data["refresh"]);
   }
 
+  Future<Response> request(String method, String? relativeUrl, [Map<dynamic, dynamic>? data, bool retry=true]) async {
+    try {
+      var access = await storage.getAccessToken();
+      var fullUrl = "$_baseUrl$relativeUrl";
+      var response = await _dio.request(
+        fullUrl,
+        data: data,
+        options: Options(
+            method: method.toUpperCase(),
+            headers: {
+              "Authorization": "Bearer $access"
+            }
+        ),
+      );
+      return response;
+
+    } on DioError catch(e) {
+      if(e.response == null){
+        print(e.message);
+        rethrow;
+      }
+      if (retry && e.response!.statusCode == 401) {
+        await refreshTokens();
+        return await request(method, relativeUrl, data, false);
+      }
+      else{
+        rethrow;
+      }
+    }
+  }
   Future<Response> post(String? relativeUrl, {Map<dynamic, dynamic>? data}) async {
-    await refreshTokens();
-    var access = await storage.getAccessToken();
-    var fullUrl = "$_baseUrl$relativeUrl";
-    var response = await _dio.post(
-      fullUrl,
-      data: data,
-      options: Options(
-          headers: {"Authorization": "Bearer $access"}
-      )
-    );
-    return response;
+    return await request("post", relativeUrl, data);
   }
 
   Future<Response> get(String? relativeUrl) async {
-    await refreshTokens();
-    var response;
-    var access = await storage.getAccessToken();
-    var fullUrl = "$_baseUrl$relativeUrl";
-    try {
-      response = await _dio.get(
-        fullUrl,
-        options: Options(
-          headers: {"Authorization": "Bearer $access"}
-        )
-      );
-    }
-    on DioError catch(e) {
-      print(e.message);
-    }
-    return response;
+    return await request("get", relativeUrl);
   }
   Future<Response> delete(String? relativeUrl) async {
-    await refreshTokens();
-    var response;
-    var access = await storage.getAccessToken();
-    var fullUrl = "$_baseUrl$relativeUrl";
-    response = await _dio.delete(
-      fullUrl,
-      options: Options(
-          headers: {"Authorization": "Bearer $access"}
-      )
-    );
-    return response;
+    return await request("delete", relativeUrl);
   }
+
+
   Future<User> getSelfInfo() async {
     var response = await get("/users/me/");
     var user = User.fromMap(response.data);
