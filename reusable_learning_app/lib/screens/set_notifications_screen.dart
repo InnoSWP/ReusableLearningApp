@@ -3,6 +3,7 @@ import 'package:reusable_app/components/card_template.dart';
 import 'package:reusable_app/models/utilities/custom_colors.dart';
 import 'package:awesome_notifications/awesome_notifications.dart' hide Notification;
 import 'package:reusable_app/models/utilities/notification_service.dart';
+import 'package:get/get.dart';
 
 import '../models/notification.dart';
 import '../models/utilities/notification_sender.dart';
@@ -24,12 +25,12 @@ class Notifications extends State<NotificationsStateful> {
   @override
   initState() {
     _isReminderEnabled = false;
-    message = "Hey! It is time to learn!";
+    message = "Hey! It is time to learn!".tr;
     selectedTime = TimeOfDay.now();
   }
   void _onSubmit(BuildContext context) {
     NotificationService.createScheduledNotification(
-        "New Notification!",
+        "New Notification!".tr,
         message,
         selectedTime,
         repeat: _isReminderEnabled
@@ -38,7 +39,7 @@ class Notifications extends State<NotificationsStateful> {
       SnackBar(
         // backgroundColor: Theme.of(context).backgroundColor,
         content: Text(
-          'Notification has been created!',
+          'Notification has been created!'.tr,
           // style: Theme.of(context).snackBarTheme.contentTextStyle,
         ),
         action: SnackBarAction(
@@ -65,6 +66,10 @@ class Notifications extends State<NotificationsStateful> {
       context: context,
       initialTime: selectedTime,
       initialEntryMode: TimePickerEntryMode.dial,
+      cancelText: "Cancel".tr,
+      helpText: "Select time".tr,
+      hourLabelText: "Hour".tr,
+      minuteLabelText: "Minute".tr,
     );
     if (timeOfDay != null && timeOfDay != selectedTime) {
       setState(() {
@@ -80,7 +85,7 @@ class Notifications extends State<NotificationsStateful> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-        title: const Text("Notifications"),
+        title: Text("Notifications".tr),
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 7, right: 7, top: 11, bottom: 11),
@@ -91,9 +96,9 @@ class Notifications extends State<NotificationsStateful> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    "Enable daily reminder",
-                    style: TextStyle(fontSize: 16),
+                  Text(
+                    "Enable daily reminder".tr,
+                    style: const TextStyle(fontSize: 16),
                   ),
                   Switch(
                     value: _isReminderEnabled,
@@ -122,9 +127,9 @@ class Notifications extends State<NotificationsStateful> {
                       onPressed: () {
                         _selectTime(context);
                       },
-                      child: const Text(
-                        "Select Time",
-                        style: TextStyle(
+                      child: Text(
+                        "Select Time".tr,
+                        style: const TextStyle(
                           fontSize: 16,
                           color: Colors.white
                         )
@@ -137,9 +142,9 @@ class Notifications extends State<NotificationsStateful> {
                       onPressed: () {
                         _onSubmit(context);
                       },
-                      child: const Text(
-                        "Submit",
-                        style: TextStyle(
+                      child:Text(
+                        "Submit".tr,
+                        style: const TextStyle(
                           fontSize: 16,
                           color: Colors.white
                         )
@@ -159,19 +164,19 @@ class Notifications extends State<NotificationsStateful> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Padding(
-                        padding: EdgeInsets.only(right: 18),
-                        child: Text("Input message:",
-                            style: TextStyle(fontSize: 16))),
+                    Padding(
+                        padding: const EdgeInsets.only(right: 18),
+                        child: Text("Input message:".tr,
+                            style: const TextStyle(fontSize: 16))),
                     Expanded(
                       child: TextField(
                         onChanged: (value) {
                           _updateMessage(value);
                         },
                         controller: editingController,
-                        decoration: const InputDecoration(
-                          hintText: "Hey! It is time to learn!",
-                          border: OutlineInputBorder(
+                        decoration: InputDecoration(
+                          hintText: "Hey! It is time to learn!".tr,
+                          border: const OutlineInputBorder(
                               borderRadius: BorderRadius.all(
                                   Radius.circular(5.0))),
                           focusColor: CustomColors.purple,

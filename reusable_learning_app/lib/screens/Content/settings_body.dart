@@ -282,7 +282,15 @@ class SettingsBodyState extends State<SettingsBody> {
                             )
                         ),
                         IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
+                                if(!isAllowed) {
+                                  AwesomeNotifications().requestPermissionToSendNotifications();
+                                }
+
+                              });
+                              _goToNotificationsPage(context);
+                            },
                             icon: const Icon(Icons.keyboard_arrow_right))
                       ],
                     ),
