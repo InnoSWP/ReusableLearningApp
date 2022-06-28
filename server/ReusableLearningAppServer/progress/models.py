@@ -13,3 +13,6 @@ class LessonProgress(models.Model):
         COMPLETED = 'CM', 'Completed'
 
     status = models.CharField(max_length=2, choices=StatusType.choices, default=StatusType.IN_PROGRESS)
+
+    def __str__(self):
+        return f"LessonProgress(name={self.user.username}, lesson={self.lesson.name}, status={self.status})"
