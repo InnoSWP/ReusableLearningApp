@@ -56,8 +56,8 @@ class CoursesBodyState extends State<CoursesBody>  {
             itemCount: (snapshot.data![1] as List<Course>).length,
             itemBuilder: (context, index) {
               return CourseCard(
-                course: snapshot.data![1][index],
-                isFav: (snapshot.data![2] as List<int>).contains(index + 1),
+                course: (snapshot.data![1] as List<Course>)[index],
+                isFav: (snapshot.data![2] as List<int>).contains((snapshot.data![1] as List<Course>)[index].id),
               );
             },
           );
