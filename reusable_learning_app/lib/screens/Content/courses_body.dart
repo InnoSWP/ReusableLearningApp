@@ -86,8 +86,7 @@ class CoursesBodyState extends State<CoursesBody> {
                                   snapshot.data![1][index].name, searchString)
                               ? CourseCard(
                                   course: snapshot.data![1][index],
-                                  isFav: (snapshot.data![2] as List<int>)
-                                      .contains(index + 1),
+                                  isFav: (snapshot.data![2] as List<int>).contains((snapshot.data![1] as List<Course>)[index].id),
                                 )
                               : Container();
                         },
