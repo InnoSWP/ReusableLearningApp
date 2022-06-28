@@ -64,7 +64,7 @@ class LocalString extends Translations{
       "Select time" : "Select time",
       "Hour" : "Hour",
       "Minute" : "Minute",
-
+      'Search' : 'Search',
 
     },
     'ru_RU':{
@@ -127,6 +127,8 @@ class LocalString extends Translations{
       "Select time" : "Выберите время",
       "Hour" : "Часы",
       "Minute" : "Минуты",
+      'Search' : 'Поиск'
+
     }
   };
 }
