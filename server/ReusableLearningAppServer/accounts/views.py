@@ -1,10 +1,13 @@
-from django.contrib.auth.models import User
-from django.shortcuts import get_object_or_404
-from accounts.serializers import UserSerializer, RegisterSerializer
 from rest_framework.views import APIView, Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.decorators import action
+
+from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
+
+from accounts.serializers import UserSerializer, RegisterSerializer
+from points.models import UserScore
 
 
 class UserViewSet(ModelViewSet):
@@ -12,11 +15,10 @@ class UserViewSet(ModelViewSet):
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
 
-    def retrieve(self, request, *args, **kwargs):
-        user = get_object_or_404(self.queryset, *args, **kwargs)
-        serializer = UserSerializer(user)
+    @action(detail=False, methods=["get"])
+    def me(self, request):
         return Response(
-            data=serializer.data
+            data=UserSerializer(request.user).data
         )
 
 
@@ -29,6 +31,7 @@ class RegisterView(APIView):
         user = serializer.save()
 
         refresh = RefreshToken.for_user(user)
+        UserScore.get_score(user)  # create user score
 
         return Response(
             data={
@@ -36,15 +39,4 @@ class RegisterView(APIView):
                 'refresh': str(refresh)
             },
             status=201
-        )
-
-
-class SelfUserView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-        serializer = UserSerializer(request.user, context={'request': request})
-
-        return Response(
-            data=serializer.data
         )

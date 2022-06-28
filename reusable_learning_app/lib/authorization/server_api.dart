@@ -27,14 +27,16 @@ class ServerApi {
     await storage.setRefreshToken(response.data["refresh"]);
   }
 
-  Future<Response> post(String? relativeUrl, Map<dynamic, dynamic> data) async {
+  Future<Response> post(String? relativeUrl, {Map<dynamic, dynamic>? data}) async {
     await refreshTokens();
     var access = await storage.getAccessToken();
     var fullUrl = "$_baseUrl$relativeUrl";
     var response = await _dio.post(
       fullUrl,
-      queryParameters: { "Authorization": "Bearer $access" },
-      data: data
+      data: data,
+      options: Options(
+          headers: {"Authorization": "Bearer $access"}
+      )
     );
     return response;
   }
@@ -57,6 +59,19 @@ class ServerApi {
     }
     return response;
   }
+  Future<Response> delete(String? relativeUrl) async {
+    await refreshTokens();
+    var response;
+    var access = await storage.getAccessToken();
+    var fullUrl = "$_baseUrl$relativeUrl";
+    response = await _dio.delete(
+      fullUrl,
+      options: Options(
+          headers: {"Authorization": "Bearer $access"}
+      )
+    );
+    return response;
+  }
   Future<User> getSelfInfo() async {
     var response = await get("/users/me/");
     var user = User.fromMap(response.data);
@@ -73,6 +88,39 @@ class ServerApi {
     var response = await get("/favorites/courses/courses/$id/");
     UserInfo.favouriteCourses = (response.data as List<dynamic>).map((e) => e as int).toList();
     return UserInfo.favouriteCourses!;
+  }
+
+  Future<bool> changeFavoriteCourseState(int id) async {
+    if(UserInfo.favouriteCourses!.contains(id)) {
+      UserInfo.favouriteCourses!.remove(id);
+      return await _removeCourseFromFavorite(id);
+    }
+    else {
+      UserInfo.favouriteCourses!.add(id);
+      return await _addCourseToFavorite(id);
+    }
+  }
+  Future<bool> _addCourseToFavorite(int id) async {
+    try {
+      var response = await post(
+        "/favorites/courses/add/$id/",
+      );
+      return response.statusCode == 201;
+    }
+    catch(e) {
+      return false;
+    }
+  }
+  Future<bool> _removeCourseFromFavorite(int id) async {
+    try {
+      var response = await delete(
+        "/favorites/courses/add/$id/",
+      );
+      return response.statusCode == 204;
+    }
+    catch(e) {
+      return false;
+    }
   }
 
 }
