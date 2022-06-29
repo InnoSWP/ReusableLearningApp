@@ -34,6 +34,7 @@ Future<void> setDefault() async{
   }
 }
 
+// main method
 Future<void> main() async {
   AwesomeNotifications().initialize(null,
     [
