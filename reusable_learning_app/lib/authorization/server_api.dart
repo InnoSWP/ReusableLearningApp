@@ -67,6 +67,9 @@ class ServerApi {
   Future<Response> delete(String? relativeUrl) async {
     return await request("delete", relativeUrl);
   }
+  Future<Response> put(String? relativeUrl) async {
+    return await request("put", relativeUrl);
+  }
 
 
   Future<User> getSelfInfo() async {
@@ -77,8 +80,14 @@ class ServerApi {
   }
   Future<List<Course>> getCoursesList() async {
     var response = await get("/courses/list/");
-
-    return (response.data as List<dynamic>).map((e) => Course.fromMap(e)).toList();
+    int coursesLength = response.data.length;
+    List<Course> resultCourses = [];
+    for (int i = 0; i < coursesLength; i++) {
+      var currentCourseId = response.data[i]["id"];
+      var progress = await get("/progress/$currentCourseId/");
+      resultCourses.add(Course.fromCourseAndProgress(response.data[i], progress.data));
+    }
+    return resultCourses;
   }
   Future<List<int>> getFavouriteCoursesId() async {
     int id = UserInfo.me!.id;
@@ -126,4 +135,16 @@ class ServerApi {
     var response = await get("/points/");
     return response.data["score"] as int;
   }
+
+  //make request to server to set lesson to in progress
+  Future<bool> setLessonInProgress(int courseId, int lessonId) async {
+    var response = await post("/progress/$courseId/lesson/$lessonId/");
+    return response.statusCode == 201;
+  }
+  //make request to server to set lesson to completed
+  Future<bool> setLessonCompleted(int courseId, int lessonId) async {
+    var response = await put("/progress/$courseId/lesson/$lessonId/");
+    return response.statusCode == 200;
+  }
+
 }

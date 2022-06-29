@@ -54,7 +54,10 @@ class AppThemes {
       contentTextStyle: TextStyle(
         color: Colors.white,
       ),
-    )
+    ),
+    progressIndicatorTheme: ProgressIndicatorThemeData(
+      color: Colors.grey[800]!,
+    ),
   );
   static final lightTheme = ThemeData(
     canvasColor: CustomColors.purple,
@@ -105,7 +108,10 @@ class AppThemes {
       contentTextStyle: TextStyle(
         color: Colors.white,
       ),
-    )
+    ),
+    progressIndicatorTheme: ProgressIndicatorThemeData(
+      color: Colors.grey[300]!,
+    ),
 
   );
 }
