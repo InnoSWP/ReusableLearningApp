@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:reusable_app/authorization/authorization_manager.dart';
 import 'package:reusable_app/authorization/server_api.dart';
@@ -6,6 +5,7 @@ import 'package:reusable_app/components/card_template.dart';
 import 'package:reusable_app/models/token_secure_storage.dart';
 import 'package:reusable_app/models/utilities/custom_colors.dart';
 import 'package:reusable_app/screens/lessons/course_screen.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 import '../models/course.dart';
 import 'package:get/get.dart';
@@ -39,6 +39,18 @@ class CourseCardState extends State<CourseCard> {
     return result;
   }
 
+  Color fillColor(double percentage){
+    if(percentage < 33){
+      return Colors.red;
+    }
+    else if(percentage < 66){
+      return Colors.orange;
+    }
+    else{
+      return Colors.green;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return CardTemplate(
@@ -56,9 +68,32 @@ class CourseCardState extends State<CourseCard> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(bottom: 10),
-                    child: Text(
-                      widget.course.name,
-                      style: Theme.of(context).textTheme.titleMedium
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.7,
+                          child: Text(
+                            widget.course.name,
+                            style: Theme.of(context).textTheme.titleMedium
+                          ),
+                        ),
+                        CircularPercentIndicator(
+                          backgroundColor: Theme.of(context).progressIndicatorTheme.color!,
+                          progressColor: fillColor(widget.course.totalCourseProgress! * 100),
+                          radius: 23,
+                          lineWidth: 4,
+                          percent: widget.course.totalCourseProgress ?? 0,
+                          center: Text(
+                            "${(widget.course.totalCourseProgress! * 100).toStringAsFixed(0)}%",
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Theme.of(context).textTheme.titleMedium!.color,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )
+                        ),
+                      ],
                     ),
                   ),
                   Padding(

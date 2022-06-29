@@ -87,7 +87,7 @@ class LocalString extends Translations{
       "Some error happened" : "Произошла ошибка.",
 
       'Lesson' : 'Урок',
-      "Complete lesson" : "Выполнить урок",
+      "Complete lesson" : "Завершить урок",
       "No lessons attached" : "Нет прикрепленных уроков",
       "Please entry password" : "Пожалуйста, введите пароль",
       "Please entry username" : "Пожалуйста, введите имя пользователя",

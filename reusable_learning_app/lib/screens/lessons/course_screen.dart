@@ -69,7 +69,12 @@ class _CourseScreenState extends State<CourseScreen> {
                       itemCount: course.lessons.length,
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
-                        return LessonListViewItem(lesson: course.lessons[index]);
+                        return LessonListViewItem(
+                          parentCourse: course,
+                          lesson: course.lessons[index],
+                          progressInfo: course.lessonProgressInfoList!.length > index ?
+                            course.lessonProgressInfoList![index] : null,
+                        );
                       },
                     )
                   ),
