@@ -1,9 +1,16 @@
 class Boost {
 
-  String imageUrl;
-  String name;
-  String description;
-  String price;
+  String? imageUrl;
+  String? name;
+  String? description;
+  int? price;
+  int? id;
 
-  Boost(this.imageUrl, this.name, this.description, this.price);
+  Boost.fromMap(dynamic json) {
+    id = json["id"];
+    imageUrl = json["image_url"];
+    name = json["name"];
+    description = json["description"];
+    price = json["price"];
+  }
 }
