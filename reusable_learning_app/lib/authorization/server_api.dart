@@ -1,4 +1,5 @@
 import 'package:reusable_app/authorization/authorization_manager.dart';
+import 'package:reusable_app/models/boost.dart';
 import 'package:reusable_app/models/interfaces/ITokenStorage.dart';
 import 'package:reusable_app/models/utilities/server_settings.dart';
 import 'package:reusable_app/models/utilities/user_info.dart';
@@ -60,7 +61,6 @@ class ServerApi {
   Future<Response> post(String? relativeUrl, {Map<dynamic, dynamic>? data}) async {
     return await request("post", relativeUrl, data);
   }
-
   Future<Response> get(String? relativeUrl) async {
     return await request("get", relativeUrl);
   }
@@ -86,7 +86,6 @@ class ServerApi {
     UserInfo.favouriteCourses = (response.data as List<dynamic>).map((e) => e as int).toList();
     return UserInfo.favouriteCourses!;
   }
-
   Future<bool> changeFavoriteCourseState(int id) async {
     if(UserInfo.favouriteCourses!.contains(id)) {
       UserInfo.favouriteCourses!.remove(id);
@@ -119,5 +118,12 @@ class ServerApi {
       return false;
     }
   }
-
+  Future<List<Boost>> getBoostsList() async {
+    var response = await get("/points/shop/");
+    return (response.data as List<dynamic>).map((e) => Boost.fromMap(e)).toList();
+  }
+  Future<int> getUserPoints() async {
+    var response = await get("/points/");
+    return response.data["score"] as int;
+  }
 }

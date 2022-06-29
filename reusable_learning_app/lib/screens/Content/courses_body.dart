@@ -53,50 +53,53 @@ class CoursesBodyState extends State<CoursesBody> {
   @override
   Widget build(BuildContext context) {
     return Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 10),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0),
-            child: TextField(
-              onChanged: (value) {
-                setState(() {
-                  searchString = value.toLowerCase();
-                });
-              },
-              decoration: InputDecoration(
-                labelText: 'Search'.tr,
-                suffixIcon: const Icon(Icons.search),
-              ),
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: 10),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+          child: TextField(
+            onChanged: (value) {
+              setState(() {
+                searchString = value.toLowerCase();
+              });
+            },
+            decoration: InputDecoration(
+              labelText: 'Search'.tr,
+              suffixIcon: const Icon(Icons.search),
             ),
           ),
-          const SizedBox(height: 10),
-          Expanded(
-              child: FutureBuilder(
-                  future: Future.wait([_user, _coursesInfo, _favCourses]),
-                  builder: (context, AsyncSnapshot snapshot) {
-                    if (snapshot.hasData) {
-                      return ListView.builder(
-                        physics: const BouncingScrollPhysics(),
-                        itemCount: (snapshot.data![1] as List<Course>).length,
-                        itemBuilder: (context, index) {
-                          return _match(
-                                  snapshot.data![1][index].name, searchString)
-                              ? CourseCard(
-                                  course: snapshot.data![1][index],
-                                  isFav: (snapshot.data![2] as List<int>).contains((snapshot.data![1] as List<Course>)[index].id),
-                                )
-                              : Container();
-                        },
-                      );
-                    } else {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                  }))
-        ]);
+        ),
+        const SizedBox(height: 10),
+        Expanded(
+          child: FutureBuilder(
+            future: Future.wait([_user, _coursesInfo, _favCourses]),
+            builder: (context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                return ListView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: (snapshot.data![1] as List<Course>).length,
+                  itemBuilder: (context, index) {
+                    return _match(snapshot.data![1][index].name, searchString)
+                        ? CourseCard(
+                            course: snapshot.data![1][index],
+                            isFav: (snapshot.data![2] as List<int>).contains(
+                                (snapshot.data![1] as List<Course>)[index].id),
+                          )
+                        : Container();
+                  },
+                );
+              } else {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            },
+          ),
+        )
+      ],
+    );
   }
 }
