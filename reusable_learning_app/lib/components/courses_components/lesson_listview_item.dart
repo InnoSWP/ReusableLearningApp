@@ -46,8 +46,7 @@ class LessonListViewItem extends StatelessWidget {
     return TextButton(
       onPressed: () {
         if (progressInfo == null) {
-          //todo: lesson level to id
-          serverApi.setLessonInProgress(parentCourse.id, lesson.level + 1);
+          serverApi.setLessonInProgress(parentCourse.id, lesson.id);
         }
         Navigator.of(context).pushNamed(
           "/lesson",
