@@ -1,11 +1,13 @@
-from rest_framework.views import APIView, Response
+from rest_framework.response import Response
+from rest_framework.viewsets import ReadOnlyModelViewSet
+from rest_framework.generics import GenericAPIView
 from rest_framework import permissions
 
 from lessons.models import Lesson
 from courses.models import Course
 from points.models import UserScore
 from progress.models import LessonProgress
-from progress.serializers import LessonProgressSerializer
+from progress.serializers import CourseProgressSerializer
 
 
 def check_course_existence(func):
@@ -17,24 +19,7 @@ def check_course_existence(func):
     return wrapper
 
 
-def get_progress(course_id, user, added_points=0):
-    users_lessons = LessonProgress.objects.filter(lesson__course_id=course_id, user=user).all()
-    lessons_amount = Lesson.objects.filter(
-        course=Course.objects.get(pk=course_id)
-    ).count()
-    points = {
-        "added_points": added_points
-    }
-    return {
-        'lessons': LessonProgressSerializer(users_lessons, many=True).data,
-        'progress': (lessons_amount and users_lessons.filter(
-            status=LessonProgress.StatusType.COMPLETED
-        ).count()) / (lessons_amount or 1),
-        **(points if added_points else {})
-    }
-
-
-class CourseProgressView(APIView):
+class CourseProgressView(ReadOnlyModelViewSet):
     """
     ░░░░░▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░
     ░░░▓▓▓▓▓▓▒▒▒▒▒▒▓▓░░░░░░░
@@ -52,14 +37,16 @@ class CourseProgressView(APIView):
     """
 
     permission_classes = [permissions.IsAuthenticated]
-
-    @check_course_existence
-    def get(self, request, course_id):
-        return Response(get_progress(course_id, request.user), status=200)
+    serializer_class = CourseProgressSerializer
+    queryset = Course.objects.all()
 
 
-class LessonProgressView(APIView):
+class LessonProgressView(GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
+    serializer_class = CourseProgressSerializer
+
+    def get_progress(self, course_id: int) -> dict:
+        return self.get_serializer(Course.objects.get(pk=course_id)).data
 
     @check_course_existence
     def post(self, request, course_id, lesson_id):
@@ -67,13 +54,13 @@ class LessonProgressView(APIView):
         Creation progress when user starts a lesson
         """
         if LessonProgress.objects.filter(lesson_id=lesson_id, user=request.user).first():
-            return Response(get_progress(course_id, request.user), status=200)
+            return Response(self.get_progress(course_id), status=200)
 
         LessonProgress.objects.create(
             lesson=Lesson.objects.get(pk=lesson_id),
             user=request.user
         )
-        return Response(get_progress(course_id, request.user), status=201)
+        return Response(self.get_progress(course_id), status=201)
 
     @check_course_existence
     def put(self, request, course_id, lesson_id):
@@ -92,4 +79,4 @@ class LessonProgressView(APIView):
         course = Course.objects.get(pk=course_id)
         UserScore.update_score(request.user, lambda x: x + course.points_per_lesson)
 
-        return Response(get_progress(course_id, request.user, added_points=course.points_per_lesson))
+        return Response(self.get_progress(course.pk))
