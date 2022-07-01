@@ -72,8 +72,8 @@ class _CourseScreenState extends State<CourseScreen> {
                         return LessonListViewItem(
                           parentCourse: course,
                           lesson: course.lessons[index],
-                          progressInfo: course.lessonProgressInfoList!.length > index ?
-                            course.lessonProgressInfoList![index] : null,
+                          progressInfo: course.lessonProgressInfoList!
+                            .firstWhereOrNull((element) => element.lessonId == course.lessons[index].id)
                         );
                       },
                     )
