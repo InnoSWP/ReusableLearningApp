@@ -79,13 +79,18 @@ class ServerApi {
     return user;
   }
   Future<List<Course>> getCoursesList() async {
-    var response = await get("/courses/list/");
-    int coursesLength = response.data.length;
+    var courseListResponse = await get("/courses/list/");
+    int coursesLength = courseListResponse.data.length;
+    var coursesProgressList = await get("/progress/");
     List<Course> resultCourses = [];
     for (int i = 0; i < coursesLength; i++) {
-      var currentCourseId = response.data[i]["id"];
-      var progress = await get("/progress/$currentCourseId/");
-      resultCourses.add(Course.fromCourseAndProgress(response.data[i], progress.data));
+      var currentCourseId = courseListResponse.data[i]["id"];
+      resultCourses.add(Course.fromCourseAndProgress(
+        courseListResponse.data[i],
+        coursesProgressList.data[
+          coursesProgressList.data.indexWhere((element) => element["id"] == currentCourseId)
+        ]
+      ));
     }
     return resultCourses;
   }
