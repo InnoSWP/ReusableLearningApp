@@ -159,7 +159,7 @@ class ShopBodyState extends State<ShopBody> {
                                   (snapshot.data[0] as List<Boost>)[index].price!.toString(),
                                   style: const TextStyle(
                                       fontSize: 16, color: Colors.white)
-                                ) : const Icon(Icons.check, color : Colors.green)
+                                ) : const Icon(Icons.check, color : Colors.white)
                               ),
                             ],
                           ),
