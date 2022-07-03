@@ -90,7 +90,7 @@ class _LessonScreenState extends State<LessonScreen> {
                             serverApi.setLessonCompleted(parentCourse.id, lesson.id);
                             _snackBarLessonCompleted(context);
                           }
-                          Navigator.pop(context);
+                          Navigator.pop(context, true);
                         },
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(

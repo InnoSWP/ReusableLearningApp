@@ -53,6 +53,9 @@ class _FavCoursesState extends State<FavCourses> {
 
                   if(isFav) {
                     return CourseCard(
+                      stateCallback: () {
+                        setState(() {});
+                      },
                       course: snapshot.data![0][index],
                       isFav: isFav,
                     );

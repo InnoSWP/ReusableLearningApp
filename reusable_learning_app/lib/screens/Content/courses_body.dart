@@ -21,21 +21,13 @@ class CoursesBody extends StatefulWidget implements NavItem {
 }
 
 class CoursesBodyState extends State<CoursesBody> {
-  late Future<List<Course>> _coursesInfo;
-  late Future<List<int>> _favCourses;
-  late Future<User> _user;
+
   ServerApi serverApi = ServerApi(storage: TokenSecureStorage());
 
   @override
   void initState() {
     super.initState();
-    _user = serverApi.getSelfInfo();
-    _coursesInfo = _user.then((_) {
-      return serverApi.getCoursesList();
-    });
-    _favCourses = _coursesInfo.then((_) {
-      return serverApi.getFavouriteCoursesId();
-    });
+
   }
 
   bool _match(String name, String search) {
@@ -52,12 +44,20 @@ class CoursesBodyState extends State<CoursesBody> {
 
   @override
   Widget build(BuildContext context) {
+    var user = serverApi.getSelfInfo();
+    var coursesInfo = user.then((_) {
+      return serverApi.getCoursesList();
+    });
+    var favCourses = coursesInfo.then((_) {
+      return serverApi.getFavouriteCoursesId();
+    });
+
     return Column(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15.0),
           child: TextField(
@@ -75,7 +75,7 @@ class CoursesBodyState extends State<CoursesBody> {
         const SizedBox(height: 10),
         Expanded(
           child: FutureBuilder(
-            future: Future.wait([_user, _coursesInfo, _favCourses]),
+            future: Future.wait([user, coursesInfo, favCourses]),
             builder: (context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
                 return ListView.builder(
@@ -84,6 +84,9 @@ class CoursesBodyState extends State<CoursesBody> {
                   itemBuilder: (context, index) {
                     return _match(snapshot.data![1][index].name, searchString)
                         ? CourseCard(
+                            stateCallback: () {
+                              setState(() {});
+                            },
                             course: snapshot.data![1][index],
                             isFav: (snapshot.data![2] as List<int>).contains(
                                 (snapshot.data![1] as List<Course>)[index].id),

@@ -14,8 +14,11 @@ import 'package:get/get.dart';
 class CourseCard extends StatefulWidget {
   final Course course;
   late bool isFav;
+  final Function() stateCallback;
 
-  CourseCard({Key? key, required this.course, required bool isFav}) : super(key: key) {
+  CourseCard({Key? key, required this.course, required bool isFav,
+    required this.stateCallback }) : super(key: key) {
+
     this.isFav = isFav;
   }
 
@@ -32,7 +35,9 @@ class CourseCardState extends State<CourseCard> {
     Navigator.of(context).pushNamed(
       "/course",
       arguments: widget.course
-    );
+    ).then((value) {
+      widget.stateCallback();
+    });
   }
   Future<bool> changeFavoriteCourseState(int id) async {
     var result = await api.changeFavoriteCourseState(id);

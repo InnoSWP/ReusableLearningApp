@@ -4,6 +4,7 @@ import 'package:reusable_app/models/interfaces/ITokenStorage.dart';
 import 'package:reusable_app/models/utilities/server_settings.dart';
 import 'package:reusable_app/models/utilities/user_info.dart';
 import '../models/course.dart';
+import '../models/progress/lesson_progress_info.dart';
 import '../models/user.dart';
 import 'package:dio/dio.dart';
 import '../models/token_secure_storage.dart';
@@ -93,6 +94,17 @@ class ServerApi {
       ));
     }
     return resultCourses;
+  }
+  // Future<Course> getCourseById(int id) async {
+  //   var courseResponse = await get("/courses/$id/");
+  //   var courseProgressResponse = await get("/progress/$id/");
+  //   return Course.fromCourseAndProgress(courseResponse.data, courseProgressResponse.data);
+  // }
+  // get progress for course by id
+  Future<List<LessonProgressInfo>> getCourseProgressById(int id) async {
+    var response = await get("/progress/$id/");
+    return (response.data["lessons"] as List<dynamic>)
+      .map((e) => LessonProgressInfo.fromMap(e)).toList();
   }
   Future<List<int>> getFavouriteCoursesId() async {
     int id = UserInfo.me!.id;
