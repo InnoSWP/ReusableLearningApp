@@ -1,6 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.decorators import action
 from rest_framework.viewsets import ReadOnlyModelViewSet
+from rest_framework.generics import RetrieveAPIView, ListAPIView
 from rest_framework import permissions
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
@@ -11,7 +12,6 @@ from .serializers import UserScoreSerializer, ShopItemSerializer
 
 class ShopView(ReadOnlyModelViewSet):
     permissions = [permissions.IsAuthenticated]
-    pagination_class = None
 
     queryset = ShopItem.objects.all()
     serializer_class = ShopItemSerializer
@@ -31,24 +31,17 @@ class ShopView(ReadOnlyModelViewSet):
         }, status=400)
 
 
-class ScoreView(APIView):
+class ScoreView(RetrieveAPIView):
     permission_classes = [permissions.IsAuthenticated]
+    serializer_class = UserScoreSerializer
 
-    def get(self, request):
-        return Response(
-            UserScoreSerializer(
-                UserScore.get_score(user=request.user)
-            ).data
-        )
+    def get_object(self):
+        return UserScore.get_score(self.request.user)
 
 
-class InventoryView(APIView):
+class InventoryView(ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
+    serializer_class = ShopItemSerializer
 
-    def get(self, request):
-        return Response(
-            ShopItemSerializer(
-                ShopItem.get_inventory(request.user),
-                many=True
-            ).data
-        )
+    def get_queryset(self):
+        return ShopItem.get_inventory(self.request.user)
