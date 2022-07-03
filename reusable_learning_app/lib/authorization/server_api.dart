@@ -152,7 +152,10 @@ class ServerApi {
     var response = await get("/points/");
     return response.data["score"] as int;
   }
-
+  Future<int> getCompletedLessons() async {
+    var response = await get("/points/");
+    return response.data["lessons_passed"] as int;
+  }
   //make request to server to set lesson to in progress
   Future<bool> setLessonInProgress(int courseId, int lessonId) async {
     var response = await post("/progress/$courseId/lesson/$lessonId/");

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:reusable_app/authorization/server_api.dart';
+import 'package:reusable_app/components/card_template.dart';
 import 'package:reusable_app/models/interfaces/nav_item.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:reusable_app/models/token_secure_storage.dart';
 import 'package:reusable_app/models/utilities/custom_colors.dart';
 import 'package:get/get.dart';
-
 
 class AchievementsBody extends StatefulWidget implements NavItem {
   AchievementsBody({Key? key}) : super(key: key);
@@ -16,41 +18,12 @@ class AchievementsBody extends StatefulWidget implements NavItem {
 }
 
 //just to store values for a while
-class _Info {
-  int level;
-  int currentPoints;
-  int maxPoints;
-  int lessons;
-  int dayStreak;
-  int timeInMinutes;
-
-  int pointsRank;
-  int lessonsRank;
-  int streakRank;
-  int timeRank;
-
-  _Info(
-      this.level,
-      this.currentPoints,
-      this.maxPoints,
-      this.lessons,
-      this.dayStreak,
-      this.timeInMinutes,
-      this.pointsRank,
-      this.lessonsRank,
-      this.streakRank,
-      this.timeRank);
-}
 
 class AchievementsBodyState extends State<AchievementsBody> {
-  _Info _getInfo() {
-    //here we can get the data from API
-    return _Info(1, 300, 1000, 2, 1, 45, 10, -7, 45, 0);
-  }
 
-  Color _rankColor(int rank) {
+  Color _rankColor(int rank, BuildContext context) {
     if (rank == 0) {
-      return Colors.black;
+      return Theme.of(context).textTheme.titleMedium!.color!;
     } else if (rank > 0) {
       return Colors.green;
     } else {
@@ -77,189 +50,187 @@ class AchievementsBodyState extends State<AchievementsBody> {
     }
   }
 
-  late _Info information;
+  ServerApi api = ServerApi(storage: TokenSecureStorage());
 
   @override
   void initState() {
     super.initState();
-    information = _getInfo();
   }
+
+  final lessonMultiplier = 150;
+  final pointsForEachLesson = 1000;
+  late int lessonsCompleted;
+
+
+  int _totalPoints() => lessonsCompleted * lessonMultiplier;
+
+  int _level() =>
+      _totalPoints() ~/ pointsForEachLesson;
+
+  int _currentPoints() =>
+      _totalPoints() % pointsForEachLesson;
+
+  int _remainingPoints() =>
+      pointsForEachLesson - _currentPoints();
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      physics: BouncingScrollPhysics(),
-      child: Container(
-        height: 700,
-        child: Padding(
-            padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-            child: Column(
-              children: [
-                Card(
-                  child: SizedBox(
-                    width: 400,
-                    height: 150,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 10, 20, 0),
-                          child: CircularPercentIndicator(
-                            radius: 60.0,
-                            animation: true,
-                            animationDuration: 1200,
-                            lineWidth: 7.0,
-                            percent:
-                                information.currentPoints / information.maxPoints,
-                            center: Text(
-                              "${(information.currentPoints / information.maxPoints * 100).round()} %",
-                              style: const TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.w600
-                              ),
-                            ),
-                            circularStrokeCap: CircularStrokeCap.round,
-                            progressColor: CustomColors.purple,
-                          )),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(25, 40, 0, 0),
-                          child: Column(
+    Future<int> completedLessons = api.getCompletedLessons();
+
+    return FutureBuilder(
+      future: completedLessons,
+      builder: (context, AsyncSnapshot<int> snapshot) {
+        lessonsCompleted = snapshot.data ?? 0;
+        if (snapshot.hasData) {
+          return RefreshIndicator(
+            onRefresh: () async {
+              setState(() {});
+            },
+            child: SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
+              child: Container(
+                height: 700,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                  child: Column(
+                    children: [
+                      CardTemplate(
+                        child: SizedBox(
+                          width: 400,
+                          height: 150,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Text(
-                                "${'Level'.tr} ${information.level}",
-                                style: const TextStyle(
-                                  fontSize: 25, fontWeight: FontWeight.bold
-                                ),
-                              ),
                               Padding(
-                                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                                  child: Row(children: [
-                                    Text("${information.currentPoints}",
+                                  padding: const EdgeInsets.fromLTRB(0, 10, 20, 0),
+                                  child: CircularPercentIndicator(
+                                    radius: 60.0,
+                                    animation: true,
+                                    animationDuration: 1200,
+                                    lineWidth: 7.0,
+                                    percent: _currentPoints() / pointsForEachLesson,
+                                    center: Text(
+                                      "${(_currentPoints() / pointsForEachLesson * 100).round()} %",
                                       style: const TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold)),
-                                    Text("/ ${information.maxPoints} ${'points'.tr}")
-                                  ]
-                                )
-                              ),
+                                          fontSize: 24, fontWeight: FontWeight.w600),
+                                    ),
+                                    circularStrokeCap: CircularStrokeCap.round,
+                                    progressColor: CustomColors.purple,
+                                  )),
                               Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
-                                child: Text(
-                                  "${information.maxPoints - information.currentPoints} ${'to Level'.tr} ${information.level + 1}"
-                                )
+                                padding: const EdgeInsets.fromLTRB(25, 40, 0, 0),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      "${'Level'.tr} ${_level()}",
+                                      style: const TextStyle(
+                                          fontSize: 25, fontWeight: FontWeight.bold),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            "${_currentPoints()}",
+                                            style: const TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Text(
+                                              "/ $pointsForEachLesson ${'points'.tr}")
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+                                      child: Text(
+                                          "${_remainingPoints()} ${'to Level'.tr} ${_level() + 1}"),
+                                    )
+                                  ],
+                                ),
                               )
                             ],
-                          )
-                        )
-                      ],
-                    ),
+                          ),
+                        ),
+                      ),
+                      CardTemplate(
+                        child: Container(
+                          padding: const EdgeInsets.all(10),
+                          width: 400,
+                          height: 140,
+                          child: ListView(
+                            physics: NeverScrollableScrollPhysics(),
+                            children: [
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(15, 5, 0, 0),
+                                    child: Text(
+                                      "${_totalPoints()}",
+                                      style: const TextStyle(
+                                          fontSize: 18, fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(6, 5, 0, 0),
+                                    child: Text("points".tr),
+                                  ),
+                                ],
+                              ),
+                              const Divider(thickness: 2),
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(15, 5, 0, 0),
+                                    child: Text(
+                                      "$lessonsCompleted",
+                                      style: const TextStyle(
+                                          fontSize: 18, fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  Padding(
+                                      padding: EdgeInsets.fromLTRB(6, 5, 0, 0),
+                                      child: Text("lessons".tr)),
+                                  const Spacer(),
+                                ],
+                              ),
+                              const Divider(thickness: 2),
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(15, 5, 0, 0),
+                                    child: Text(
+                                      "${1} ${'day'.tr}",
+                                      style: const TextStyle(
+                                          fontSize: 18, fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  Padding(
+                                      padding: const EdgeInsets.fromLTRB(6, 5, 0, 0),
+                                      child: Text("streak".tr)),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                Card(
-                  child: SizedBox(
-                      width: 400,
-                      height: 175,
-                      child: ListView(
-                        physics: NeverScrollableScrollPhysics(),
-                        children: [
-                          Row(mainAxisSize: MainAxisSize.max, children: [
-                            Padding(
-                                padding: const EdgeInsets.fromLTRB(15, 5, 0, 0),
-                                child: Text("${information.currentPoints}",
-                                    style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold))),
-                            Padding(
-                                padding: const EdgeInsets.fromLTRB(6, 5, 0, 0),
-                                child: Text("points".tr)),
-                            const Spacer(),
-                            Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
-                                child: _rankIcon(information.pointsRank)),
-                            Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 5, 15, 0),
-                                child: Text(
-                                  "${information.pointsRank.abs()}",
-                                  style: TextStyle(
-                                      color: _rankColor(information.pointsRank)),
-                                ))
-                          ]),
-                          const Divider(thickness: 2),
-                          Row(children: [
-                            Padding(
-                                padding: const EdgeInsets.fromLTRB(15, 5, 0, 0),
-                                child: Text("${information.lessons}",
-                                    style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold))),
-                            Padding(
-                                padding: EdgeInsets.fromLTRB(6, 5, 0, 0),
-                                child: Text("lessons".tr)),
-                            const Spacer(),
-                            Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
-                                child: _rankIcon(information.lessonsRank)),
-                            Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 5, 15, 0),
-                                child: Text(
-                                  "${information.lessonsRank.abs()}",
-                                  style: TextStyle(
-                                      color: _rankColor(information.lessonsRank)),
-                                ))
-                          ]),
-                          const Divider(thickness: 2),
-                          Row(children: [
-                            Padding(
-                                padding: const EdgeInsets.fromLTRB(15, 5, 0, 0),
-                                child: Text("${information.dayStreak} ${'day'.tr}",
-                                    style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold))),
-                            Padding(
-                                padding: const EdgeInsets.fromLTRB(6, 5, 0, 0),
-                                child: Text("streak".tr)),
-                            const Spacer(),
-                            Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
-                                child: _rankIcon(information.streakRank)),
-                            Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 5, 15, 0),
-                                child: Text(
-                                  "${information.streakRank.abs()}",
-                                  style: TextStyle(
-                                      color: _rankColor(information.streakRank)),
-                                ))
-                          ]),
-                          const Divider(thickness: 2),
-                          Row(children: [
-                            Padding(
-                                padding: const EdgeInsets.fromLTRB(15, 5, 0, 0),
-                                child: Text("${information.timeInMinutes}",
-                                    style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold))),
-                            Padding(
-                                padding: const EdgeInsets.fromLTRB(6, 5, 0, 0),
-                                child: Text("min".tr)),
-                            const Spacer(),
-                            Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
-                                child: _rankIcon(information.timeRank)),
-                            Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 5, 15, 0),
-                                child: Text(
-                                  "${information.timeRank.abs()}",
-                                  style: TextStyle(
-                                      color: _rankColor(information.timeRank)),
-                                ))
-                          ]),
-                        ],
-                      )),
-                ),
-              ],
-            )),
-      ),
+              ),
+            ),
+          );
+        }
+        else {
+          return const Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+      }
     );
   }
 }
