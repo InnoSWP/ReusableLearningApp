@@ -85,9 +85,9 @@ class _LessonScreenState extends State<LessonScreen> {
                     child: Container(
                       padding: const EdgeInsets.all(15),
                       child: TextButton(
-                        onPressed: () {
+                        onPressed: () async {
                           if (progressInfo == null || progressInfo.status == 'PR') {
-                            serverApi.setLessonCompleted(parentCourse.id, lesson.id);
+                            await serverApi.setLessonCompleted(parentCourse.id, lesson.id);
                             _snackBarLessonCompleted(context);
                           }
                           Navigator.pop(context, true);
