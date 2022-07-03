@@ -74,32 +74,37 @@ class CoursesBodyState extends State<CoursesBody> {
         ),
         const SizedBox(height: 10),
         Expanded(
-          child: FutureBuilder(
-            future: Future.wait([user, coursesInfo, favCourses]),
-            builder: (context, AsyncSnapshot snapshot) {
-              if (snapshot.hasData) {
-                return ListView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  itemCount: (snapshot.data![1] as List<Course>).length,
-                  itemBuilder: (context, index) {
-                    return _match(snapshot.data![1][index].name, searchString)
-                        ? CourseCard(
-                            stateCallback: () {
-                              setState(() {});
-                            },
-                            course: snapshot.data![1][index],
-                            isFav: (snapshot.data![2] as List<int>).contains(
-                                (snapshot.data![1] as List<Course>)[index].id),
-                          )
-                        : Container();
-                  },
-                );
-              } else {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
+          child: RefreshIndicator(
+            onRefresh: () async {
+              setState(() {});
             },
+            child: FutureBuilder(
+              future: Future.wait([user, coursesInfo, favCourses]),
+              builder: (context, AsyncSnapshot snapshot) {
+                if (snapshot.hasData) {
+                  return ListView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    itemCount: (snapshot.data![1] as List<Course>).length,
+                    itemBuilder: (context, index) {
+                      return _match(snapshot.data![1][index].name, searchString)
+                          ? CourseCard(
+                              stateCallback: () {
+                                setState(() {});
+                              },
+                              course: snapshot.data![1][index],
+                              isFav: (snapshot.data![2] as List<int>).contains(
+                                  (snapshot.data![1] as List<Course>)[index].id),
+                            )
+                          : Container();
+                    },
+                  );
+                } else {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
+            ),
           ),
         )
       ],
