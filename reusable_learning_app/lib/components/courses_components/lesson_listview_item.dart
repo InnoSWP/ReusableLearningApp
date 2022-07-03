@@ -13,9 +13,10 @@ class LessonListViewItem extends StatelessWidget {
   final Course parentCourse;
   final LessonProgressInfo? progressInfo;
   final ServerApi serverApi = ServerApi(storage: TokenSecureStorage());
+  final Function() stateCallback;
 
   LessonListViewItem({Key? key, required this.lesson,
-    required this.progressInfo, required this.parentCourse}) : super(key: key);
+    required this.progressInfo, required this.parentCourse, required this.stateCallback}) : super(key: key);
 
   String getProgressString() {
     if (progressInfo == null) {
@@ -51,7 +52,9 @@ class LessonListViewItem extends StatelessWidget {
         Navigator.of(context).pushNamed(
           "/lesson",
           arguments: [lesson, parentCourse, progressInfo]
-        );
+        ).then((value) {
+          stateCallback();
+        });
       },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
