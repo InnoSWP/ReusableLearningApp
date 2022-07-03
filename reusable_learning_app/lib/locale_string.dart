@@ -65,6 +65,8 @@ class LocalString extends Translations{
       "Hour" : "Hour",
       "Minute" : "Minute",
       'Search' : 'Search',
+      'Lesson has been completed!' : 'Lesson has been completed!',
+      'You do not have enough money!' : 'You do not have enough money!',
 
     },
     'ru_RU':{
@@ -127,7 +129,9 @@ class LocalString extends Translations{
       "Select time" : "Выберите время",
       "Hour" : "Часы",
       "Minute" : "Минуты",
-      'Search' : 'Поиск'
+      'Search' : 'Поиск',
+      'Lesson has been completed!' : 'Урок выполнен!',
+      'You do not have enough money!' : 'У вас недостаточно денег!',
 
     }
   };

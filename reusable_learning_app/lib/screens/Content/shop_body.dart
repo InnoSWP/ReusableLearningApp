@@ -21,24 +21,45 @@ class ShopBodyState extends State<ShopBody> {
 
   ServerApi serverApi = ServerApi(storage: TokenSecureStorage());
   late Future<List<Boost>> bonusesList;
+  late Future<List<Boost>> inventoryList;
   late Future<int> userPoints;
 
   @override
   void initState() {
     bonusesList = serverApi.getBoostsList();
+    inventoryList = serverApi.getInventory();
     userPoints = serverApi.getUserPoints();
     super.initState();
   }
 
-  void _buyItem(int index) {
+  void _buyItem(int index) async {
+    await serverApi.buyBoost(index);
+    setState(() {
+      inventoryList = serverApi.getInventory();
+      userPoints = serverApi.getUserPoints();
+    }
+    );
+  }
 
+  void _snackNotEnoughMoney(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'You do not have enough money!'.tr,
+          ),
+          action: SnackBarAction(
+            label: 'OK',
+            onPressed: () {},
+          ),
+        )
+    );
   }
 
   @override
   Widget build(BuildContext context) {
 
     return FutureBuilder(
-      future: Future.wait([bonusesList, userPoints]),
+      future: Future.wait([bonusesList, userPoints, inventoryList]),
       builder: (context, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.hasData) {
           return Padding(
@@ -128,13 +149,17 @@ class ShopBodyState extends State<ShopBody> {
                                   ),
                                 ),
                                 onPressed: () {
-                                  _buyItem((snapshot.data[0] as List<Boost>)[index].id!);
+                                  (snapshot.data[2] as List<Boost>).contains((snapshot.data[0] as List<Boost>)[index]) ?
+                                  (){} : ((snapshot.data[0] as List<Boost>)[index].price! <= snapshot.data[1] ? _buyItem((snapshot.data[0] as List<Boost>)[index].id!) :
+                                  _snackNotEnoughMoney(context));
                                 },
-                                child: Text(
+                                child:
+                                !(snapshot.data[2] as List<Boost>).contains((snapshot.data[0] as List<Boost>)[index]) ?
+                                  Text(
                                   (snapshot.data[0] as List<Boost>)[index].price!.toString(),
                                   style: const TextStyle(
-                                      fontSize: 16, color: Colors.white),
-                                ),
+                                      fontSize: 16, color: Colors.white)
+                                ) : const Icon(Icons.check, color : Colors.white)
                               ),
                             ],
                           ),

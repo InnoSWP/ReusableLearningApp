@@ -27,7 +27,7 @@ class _LessonScreenState extends State<LessonScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          'Lesson has been completed!',
+          'Lesson has been completed!'.tr,
         ),
         action: SnackBarAction(
           label: 'OK',

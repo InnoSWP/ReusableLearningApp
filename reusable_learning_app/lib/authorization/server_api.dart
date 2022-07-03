@@ -148,6 +148,14 @@ class ServerApi {
     var response = await get("/points/shop/");
     return (response.data as List<dynamic>).map((e) => Boost.fromMap(e)).toList();
   }
+  Future<List<Boost>> getInventory() async{
+    var response = await get("/points/inventory/");
+    return (response.data as List<dynamic>).map((e) => Boost.fromMap(e)).toList();
+  }
+  Future<bool> buyBoost(int boostId) async {
+    var response = await post("/points/shop/$boostId/buy/");
+    return response.statusCode == 201;
+  }
   Future<int> getUserPoints() async {
     var response = await get("/points/");
     return response.data["score"] as int;
